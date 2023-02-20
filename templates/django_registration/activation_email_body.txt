@@ -1,0 +1,1 @@
+Zde je váš aktivační klíč {{ activation_key }}.

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1 class="flex items-center justify-center text-2xl font-bold">Rychlost pro stránku: {{ web_name }}</h1>
+    {% if user.is_authenticated %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="add_url">
+        <div class="flex items-center justify-center text-lg">
+        <button type="submit" name="addurl" value="b">Přidat do sledovaných</button>
+            </div>
+						  				</form>
+    {% else %}
+        <div class="flex items-center justify-center text-lg">
+        <a href="{% url 'login' %}">Přihlašte se </a><p>&nbsp;pro přidání stránky do sledování</p>
+        </div>
+    {% endif %}
+
+    <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+      <div class="grid row-gap-8 md:grid-cols-3">
+      {% with latest_crux=url_obj.cruxhistory_set.latest %}
+        <div class="text-center md:border-r">
+          <h6 class="text-4xl font-bold lg:text-5xl xl:text-6xl">
+
+                        {% if device == "m" %}
+                            {{ latest_crux.fidm }}
+                        {% else %}
+                            {{ latest_crux.fidd }}
+                        {% endif %}
+
+          </h6>
+          <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
+            Fid
+          </p>
+        </div>
+        <div class="text-center md:border-r">
+          <h6 class="text-4xl font-bold lg:text-5xl xl:text-6xl">
+
+                        {% if device == "m" %}
+                            {{ latest_crux.lcpm }}
+                        {% else %}
+                            {{ latest_crux.lcpd }}
+                        {% endif %}
+
+          </h6>
+          <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
+            Lcp
+          </p>
+        </div>
+        <div class="text-center md:border-r">
+          <h6 class="text-4xl font-bold lg:text-5xl xl:text-6xl">
+              <h6 class="text-4xl font-bold lg:text-5xl xl:text-6xl">
+
+                      {% if device == "m" %}
+                        {{ latest_crux.clsm }}
+                      {% else %}
+                        {{ latest_crux.clsd }}
+                      {% endif %}
+
+          </h6>
+          <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
+            Cls
+          </p>
+        </div>
+        {% endwith %}
+      </div>
+    </div>
+    <form method="post">
+    {% csrf_token %}
+    <div class="container mx-auto px-4 py-2">
+    <div class="flex justify-end">
+    <div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1">
+  <button type="submit"
+    class="inline-block rounded-md px-4 py-2 text-sm text-gray-500 hover:text-gray-700 focus:relative {% if device == 'm' %} bg-white shadow-sm {% endif %}" name="mobile" value="m"
+  >
+    Mobil
+  </button>
+
+  <button type="submit"
+    class="inline-block rounded-md px-4 py-2 text-sm text-gray-500 hover:text-gray-700 {% if device == 'd' %} bg-white shadow-sm {% endif %} focus:relative" name="desktop" value="d"
+  >
+    Desktop
+  </button>
+</div>
+        </div>
+    </div>
+        </form>
+
+<div id="plotly-chart" class="container mx-auto px-4">
+
+    <div {% if nodata %} class="flex items-center justify-center text-lg" {% endif %}>
+  {{ chart|safe }}
+    </div>
+</div>
+
+{% endblock %}

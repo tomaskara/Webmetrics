@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+    <div class="flex items-center justify-center">
+        <table class="table-auto border-collapse bg-white">
+            <thead class="border-b">
+                <tr>
+                    <th class="px-3 py-2">Sledované URL</th>
+                    <th class="px-3 py-2">Alert</th>
+                    <th class="px-3 py-2">Clsm</th>
+                    <th class="px-3 py-2">Fidm</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for profile_url in profile.profileurl_set.all %}
+                    <tr class="border-b">
+                        <td class="px-3 py-2"><a href={% url "dashboard" profile_url.url.id %}>{{ profile_url.url.url }}</a>
+                            <td class="px-3 py-2"><div class="form-check">
+      <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white
+      checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 my-1 align-top
+      bg-no-repeat bg-center bg-contain float-left cursor-pointer" type="checkbox" value={{ profile_url.id }} id="email_alert"
+      {% if profile_url.email_alert %}checked{% endif %}>
+    </div></td>
+                        {% with latest_crux=profile_url.url.cruxhistory_set.latest %}
+                        <td class="px-3 py-2">{{ latest_crux.clsm }}</td><td class="px-3 py-2">{{ latest_crux.fidm }}</td><td class="px-3 py-2">{{ latest_crux.lcpd }}</td>
+                        {% endwith %}
+
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+		    </div>
+
+    <script>
+$(document).ready(function() {
+    $('input[type="checkbox"]').on('click', function() {
+        if ($(this).is(':checked')) {
+            var value = "True";
+        } else {
+            var value = "False";
+        }
+        var url_id = $(this).val();
+        $.ajax({
+            url: {% url "change_value" %},
+            data: {
+                'value': value,
+                'url_id': url_id,
+            },
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
