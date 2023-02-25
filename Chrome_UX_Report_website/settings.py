@@ -145,7 +145,15 @@ USE_I18N = True
 
 USE_TZ = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.seznam.cz'
+EMAIL_HOST_USER = os.getenv('EMAIL')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+
+DEFAULT_FROM_EMAIL = 'alert@webmetrics.cz'
+
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Static files (CSS, JavaScript, Images)

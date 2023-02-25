@@ -1,1 +1,1 @@
-Zde je váš aktivační klíč {{ activation_key }}.
+Zde je váš aktivační klíč {{ activation_key }}. {{ scheme }}://{{ site }}{% url 'django_registration_activate' activation_key %}
