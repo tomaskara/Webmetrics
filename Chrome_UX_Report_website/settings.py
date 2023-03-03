@@ -34,7 +34,7 @@ SECRET_KEY = 'django-insecure-euh%eb_obpuj8zpr2rc+)r+b@ng1tg+)bo%xo*n5(lym1)u2oe
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.webmetrics.cz']
 
 LOGIN_REDIRECT_URL = '/profile/'
 
