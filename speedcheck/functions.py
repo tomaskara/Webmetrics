@@ -9,9 +9,6 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 from django.conf import settings
-import django
-
-django.setup()
 from speedcheck.models import Urls, CruxHistory, ProfileUrl
 
 BASE_DIR = settings.BASE_DIR
