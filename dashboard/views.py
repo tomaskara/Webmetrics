@@ -22,6 +22,7 @@ def dashboard(request, url_id):
     metric = "lcp"
     dates = [c.date for c in data]
     metrics = eval(f"[c.{metric}{device} for c in data]")
+    clean_metrics = [item for item in metrics if item is not None]
     if metrics[0] != None:
         fig = px.line(x=dates, y=metrics)
         limits = [2500, 4000]
@@ -43,7 +44,8 @@ def dashboard(request, url_id):
                 'text': f"{metric}",
                 'font': {'size': 24}
             },
-            yaxis_range=[min(metrics) - 5, max(metrics) + 5],
+
+            yaxis_range=[min(clean_metrics) - 5, max(clean_metrics) + 5],
         )
         config = dict({'modeBarButtonsToRemove': ['autoScale', 'zoom', 'pan', 'select', 'zoomIn', 'zoomOut']})
         chart = fig.to_html(config=config)

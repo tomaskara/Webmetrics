@@ -79,34 +79,32 @@ def get_api_data(url):
 
 
 def email_trigger(url, new_values):
-    query_set_for_url = CruxHistory.objects.filter(url__url=url).order_by('date')
+    query_set_for_url = CruxHistory.objects.filter(url__url=url).order_by('-date')
     query_list = [entry for entry in query_set_for_url]  # evaluate query set to cache results
     metrics_to_alert = {}
     trigger = False
     if len(query_set_for_url) >= 6:
-        clsm = [q.clsm for q in query_set_for_url[-6:-1]]
-        fidm = [q.fidm for q in query_set_for_url[-6:-1]]
-        lcpm = [q.lcpm for q in query_set_for_url[-6:-1]]
-        if new_values[clsm] > mean(clsm):
-            metrics_to_alert["clsm"] = [new_values[clsm], mean(clsm)]
+        clsm = [q.clsm for q in query_set_for_url[1:6]]
+        fidm = [q.fidm for q in query_set_for_url[1:6]]
+        lcpm = [q.lcpm for q in query_set_for_url[1:6]]
+        if new_values['clsm'] > mean(clsm):
+            metrics_to_alert["clsm"] = [new_values['clsm'], mean(clsm)]
             trigger = True
-        if new_values[fidm] > mean(fidm):
-            metrics_to_alert["fidm"] = [new_values[fidm], mean(fidm)]
+        if new_values['fidm'] > mean(fidm):
+            metrics_to_alert["fidm"] = [new_values['fidm'], mean(fidm)]
             trigger = True
-        if new_values[lcpm] > mean(lcpm):
-            metrics_to_alert["lcpm"] = [new_values[lcpm], mean(lcpm)]
+        if new_values['lcpm'] > mean(lcpm):
+            metrics_to_alert["lcpm"] = [new_values['lcpm'], mean(lcpm)]
             trigger = True
         if trigger:
             return metrics_to_alert
-        else:
-            return False
 
     else:
         return False
 
 
 def email_launcher(url, metrics_to_alert):
-    alerts = ProfileUrl.objects.filter(email_alert=True, url=url)
+    alerts = ProfileUrl.objects.filter(email_alert=True, url__url=url)
     for alert in alerts:
         user_email = alert.profile.user.email
         send_email(user_email, url, metrics_to_alert)

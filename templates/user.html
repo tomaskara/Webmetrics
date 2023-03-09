@@ -10,8 +10,9 @@
                 <tr>
                     <th class="px-3 py-2">Sledované URL</th>
                     <th class="px-3 py-2">Alert</th>
-                    <th class="px-3 py-2">Clsm</th>
-                    <th class="px-3 py-2">Fidm</th>
+                    <th class="px-3 py-2">LCP</th>
+                    <th class="px-3 py-2">FID</th>
+                    <th class="px-3 py-2">CLS</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +26,38 @@
       {% if profile_url.email_alert %}checked{% endif %}>
     </div></td>
                         {% with latest_crux=profile_url.url.cruxhistory_set.latest %}
-                        <td class="px-3 py-2">{{ latest_crux.clsm }}</td><td class="px-3 py-2">{{ latest_crux.fidm }}</td><td class="px-3 py-2">{{ latest_crux.lcpd }}</td>
+                            {% with lcpm=latest_crux.lcpm %}
+                                <td class="px-3 py-2 font-semibold
+                                {% if lcpm > 4000 %}
+                                text-red-600
+                                {% elif lcpm > 2500 %}
+                                text-amber-600
+                                {% else %}
+                                text-lime-600
+                                {% endif %}">{{ lcpm }}</td>
+                            {% endwith %}
+                            {% with fidm=latest_crux.fidm %}
+                                <td class="px-3 py-2 font-semibold
+                                {% if fidm > 300 %}
+                                text-red-600
+                                {% elif fidm > 100 %}
+                                text-amber-600
+                                {% else %}
+                                text-lime-600
+                                {% endif %}">{{ fidm }}</td>
+                            {% endwith %}
+                            {% with clsm=latest_crux.clsm %}
+                                <td class="px-3 py-2 font-semibold
+                                {% if clsm > 0.25 %}
+                                text-red-600
+                                {% elif clsm > 0.10 %}
+                                text-amber-600
+                                {% else %}
+                                text-lime-600
+                                {% endif %}">{{ clsm }}</td>
+                            {% endwith %}
+
+                        <td class="px-3 py-2">{{ latest_crux.lcpd }}</td>
                         {% endwith %}
 
 
