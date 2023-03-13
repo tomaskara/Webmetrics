@@ -90,9 +90,12 @@
 
 <div id="plotly-chart" class="container mx-auto px-4">
 
-    <div {% if nodata %} class="flex items-center justify-center text-lg" {% endif %}>
-  {{ chart|safe }}
+    <div {% if chart1 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% endif %}>
+  {{ chart1|safe }}
     </div>
+    <div {% if chart2 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% endif %}>
+      {{ chart2|safe }}
+        </div>
 </div>
 
 {% endblock %}

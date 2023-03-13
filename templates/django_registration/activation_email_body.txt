@@ -1,1 +1,1 @@
-Pro aktivai účtu klikněte na následující aktivační link: {{ scheme }}://{{ site }}{% url 'django_registration_activate' activation_key %}
+Pro aktivaci účtu klikněte na následující aktivační link: {{ scheme }}://{{ site }}{% url 'django_registration_activate' activation_key %}

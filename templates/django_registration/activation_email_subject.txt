@@ -1,1 +1,1 @@
-Registace uživatele {{ user }} na Webmetrics. Aktivujte účet.
+Registrace uživatele {{ user }} na Webmetrics. Aktivujte účet.
