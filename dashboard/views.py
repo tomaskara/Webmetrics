@@ -85,7 +85,8 @@ def dashboard(request, url_id):
         chart2 = fig.to_html(config=config)
     else:
         chart2 = "Data nejsou k dispozici"
-        return render(request, "dashboard/dashboard.html",
+    
+    return render(request, "dashboard/dashboard.html",
                       context={'chart1': chart1,'chart2': chart2, 'web_name': web_name, 'device': device, "url_obj": url_object})
 
 
