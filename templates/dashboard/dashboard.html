@@ -95,7 +95,10 @@
     </div>
     <div {% if chart2 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% endif %}>
       {{ chart2|safe }}
-        </div>
+    </div>
+    <div {% if chart3 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% endif %}>
+      {{ chart3|safe }}
+    </div>
 </div>
 
 {% endblock %}

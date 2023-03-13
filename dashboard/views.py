@@ -85,8 +85,42 @@ def dashboard(request, url_id):
         chart2 = fig.to_html(config=config)
     else:
         chart2 = "Data nejsou k dispozici"
+
+    # fid graph
+    metric = "cls"
+    dates = [c.date for c in data]
+    metrics = eval(f"[c.{metric}{device} for c in data]")
+    clean_metrics = [item for item in metrics if item is not None]
+    if metrics[0] != None:
+        fig = px.line(x=dates, y=metrics)
+        limits = [2500, 4000]
+        colors = ['yellow', 'red']
+        # add color stripes
+        fig.add_shape(
+            type='rect',
+            x0=min(dates), x1=max(dates),
+            y0=0, y1=2500,
+            yref='y',
+            fillcolor='lightgreen',
+            layer='below',
+            opacity=0.4,
+            line_width=0
+        )
+        # TODO add color stripes - fig.add_shape
+        fig.update_layout(
+            title={
+                'text': f"{metric}",
+                'font': {'size': 24}
+            },
+
+            yaxis_range=[min(clean_metrics) - 5, max(clean_metrics) + 5],
+        )
+        config = dict({'modeBarButtonsToRemove': ['autoScale', 'zoom', 'pan', 'select', 'zoomIn', 'zoomOut']})
+        chart3 = fig.to_html(config=config)
+    else:
+        chart3 = "Data nejsou k dispozici"
     
     return render(request, "dashboard/dashboard.html",
-                      context={'chart1': chart1,'chart2': chart2, 'web_name': web_name, 'device': device, "url_obj": url_object})
+                      context={'chart1': chart1,'chart2': chart2, 'chart3': chart3, 'web_name': web_name, 'device': device, "url_obj": url_object})
 
 
