@@ -7,6 +7,8 @@ def dashboard(request, url_id):
     url_object = Urls.objects.get(id=url_id)
     web_name = url_object.url
     data = CruxHistory.objects.filter(url=url_id)
+    profile = Profile.objects.filter(user=request.user).first()
+    url_added = profile.urls.filter(url=web_name)
     if request.POST.get('mobile'):
         device = request.POST.get('mobile')
 
@@ -16,8 +18,7 @@ def dashboard(request, url_id):
         device = "m"
 
     if request.POST.get('addurl'):
-        url_to_add = Urls.objects.get(id=url_id)
-        request.user.profile.urls.add(url_to_add)
+        request.user.profile.urls.add(url_object)
     # lcp graph
     metric = "lcp"
     dates = [c.date for c in data]
@@ -113,7 +114,7 @@ def dashboard(request, url_id):
                 'font': {'size': 24}
             },
 
-            yaxis_range=[min(clean_metrics) - 5, max(clean_metrics) + 5],
+            yaxis_range=[min(clean_metrics) - 0.5, max(clean_metrics) + 0.5],
         )
         config = dict({'modeBarButtonsToRemove': ['autoScale', 'zoom', 'pan', 'select', 'zoomIn', 'zoomOut']})
         chart3 = fig.to_html(config=config)
@@ -121,6 +122,7 @@ def dashboard(request, url_id):
         chart3 = "Data nejsou k dispozici"
     
     return render(request, "dashboard/dashboard.html",
-                      context={'chart1': chart1,'chart2': chart2, 'chart3': chart3, 'web_name': web_name, 'device': device, "url_obj": url_object})
+                      context={'chart1': chart1,'chart2': chart2, 'chart3': chart3, 'web_name': web_name,
+                               'device': device, "url_obj": url_object, 'url_added': url_added})
 
 
