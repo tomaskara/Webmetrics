@@ -23,15 +23,15 @@ def dashboard(request, url_id):
     config = dict({'modeBarButtonsToRemove': ['autoScale', 'zoom', 'pan', 'select', 'zoomIn', 'zoomOut']})
     chart1 = create_plot(data, "lcp", device)
     if type(chart1) != str:
-        chart1 = chart1.to_html(config=config)
+        chart1 = chart1.to_html(config=config, include_plotlyjs=False)
 
     chart2 = create_plot(data, "fid", device)
     if type(chart2) != str:
-        chart2 = chart2.to_html(config=config)
+        chart2 = chart2.to_html(config=config, include_plotlyjs=False)
 
     chart3 = create_plot(data, "cls", device)
     if type(chart3) != str:
-        chart3 = chart3.to_html(config=config)
+        chart3 = chart3.to_html(config=config, include_plotlyjs=False)
     return render(request, "dashboard/dashboard.html",
                       context={'chart1': chart1,'chart2': chart2, 'chart3': chart3, 'web_name': web_name,
                                'device': device, "url_obj": url_object, 'url_added': url_added})
