@@ -62,7 +62,6 @@ def create_plot(query_set, metric, device):
 
                 yaxis_range=[min(clean_metrics) - 5, max(clean_metrics) + 5],
             )
-        config = dict({'modeBarButtonsToRemove': ['autoScale', 'zoom', 'pan', 'select', 'zoomIn', 'zoomOut']})
-        return fig.to_html(config=config)
+        return fig
     else:
         return "Data nejsou k dispozici"

@@ -1,5 +1,6 @@
 import smtplib, ssl
 import os
+import hashlib
 import json
 import requests
 import datetime
@@ -10,6 +11,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 from django.conf import settings
 from speedcheck.models import Urls, CruxHistory, ProfileUrl
+from dashboard.functions import create_plot
 
 BASE_DIR = settings.BASE_DIR
 # project_folder = os.path.dirname(os.path.abspath(__file__))
@@ -134,6 +136,7 @@ def send_email(user_email, url, metrics_to_alert):
               <p>Rychlost metrik {' a '.join(metrics)} stoupla oproti průměru za posledních 5 dní.
                 {os.linesep.join(f"Aktuální hodnota metriky {key} je {value[0]} a průměr je {value[1]}" for key, value in metrics_to_alert.items())}          
               </p>
+              {os.linesep.join(f"<img src='https://www.webmetrics.cz/{create_png_plot(metric, url, user_email)}' alt='Plot'>" for metric in metrics_to_alert.keys())}
             </body>
           </html>
           """
@@ -148,3 +151,12 @@ def send_email(user_email, url, metrics_to_alert):
             server.sendmail(
                 sender_email, user_email, message_root.as_string()
             )
+
+
+def create_png_plot(metric, url, user_email):
+    query_set = CruxHistory.objects.filter(url__url=url)
+    fig = create_plot(query_set, metric[:3], metric[-1])
+    hash_email = hashlib.sha256(user_email.encode('utf-8'))
+    path = f"/static/images/{hash_email.hexdigest()[:10]}{metric}.png"
+    fig.write_image(f"{BASE_DIR}{path}")
+    return path
