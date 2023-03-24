@@ -116,6 +116,7 @@ def send_email(user_email, url, metrics_to_alert):
     port = 465  # For SSL
     password = os.getenv('EMAIL_PASSWORD')
     sender_email = os.getenv('EMAIL')
+    urlid = Urls.objects.get(url=url).id
     metrics = [x for x in metrics_to_alert.keys()]
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL("smtp.seznam.cz", port, context=context) as server:
@@ -131,15 +132,16 @@ def send_email(user_email, url, metrics_to_alert):
           {os.linesep.join(f"Aktuální hodnota metriky {key} je {value[0]} a průměr je {value[1]}" for key, value in metrics_to_alert.items())}"""
 
             html = f"""\
-          <html>
-            <body>
-              <p>Rychlost metrik {' a '.join(metrics)} stoupla oproti průměru za posledních 5 dní.
-                {os.linesep.join(f"Aktuální hodnota metriky {key} je {value[0]} a průměr je {value[1]}" for key, value in metrics_to_alert.items())}          
-              </p>
-              {os.linesep.join(f"<img src='https://www.webmetrics.cz/{create_png_plot(metric, url, user_email)}' alt='Plot'>" for metric in metrics_to_alert.keys())}
-            </body>
-          </html>
-          """
+              <html>
+                <body>
+                  <p>Rychlost metrik {' a '.join(metrics)} stoupla oproti průměru za posledních 5 dní.
+                    {os.linesep.join(f"Aktuální hodnota metriky {key} je {value[0]} a průměr je {value[1]}" for key, value in metrics_to_alert.items())}          
+                  </p>
+                  <a href='https://www.webmetrics.cz/dashboard/{urlid}'>Dashboard této url</a>
+                  {os.linesep.join(f"<img src='https://www.webmetrics.cz/{create_png_plot(metric, url, user_email)}' alt='Plot'>" for metric in metrics_to_alert.keys())}
+                </body>
+              </html>
+              """
 
             # Turn these into plain/html MIMEText objects
             part1 = MIMEText(text, "plain")

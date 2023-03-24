@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-euh%eb_obpuj8zpr2rc+)r+b@ng1tg+)bo%xo*n5(lym1)u2oe'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['www.webmetrics.cz', '127.0.0.1']
 
