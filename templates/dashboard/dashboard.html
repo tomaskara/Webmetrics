@@ -6,16 +6,51 @@
     <h1 class="flex items-center justify-center text-2xl font-bold">Rychlost pro stránku: {{ web_name }}</h1>
     {% if user.is_authenticated %}
         {% if not url_added %}
-            <form method="post">
-                {% csrf_token %}
-                <input type="hidden" name="add_url">
-                <div class="flex items-center justify-center text-lg">
-                <button type="submit" name="addurl" value="b">Přidat do sledovaných</button>
+                <div class="flex items-center justify-center text-lg" id="addToProfile">
+                <button type="submit" name="addurl" id="urlAdd" value={{ url_obj.id }}>Přidat do sledovaných</button>
                     </div>
-            </form>
+            <div class="flex items-center justify-center text-lg italic hidden" id="removeFromProfile">
+            <p>Stránka je ve sledovaných</p>
+                <div class="pl-1">
+                <button id="urlDelete" obj-id={{ url_obj.id }}><span
+                          class="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700"
+                        >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                            />
+                          </svg>
+
+                          <p class="whitespace-nowrap text-sm">Failed</p>
+                        </span>
+                    </button>
+                </div>
+
+
+            </div>
         {% else %}
-            <div class="flex items-center justify-center text-lg italic">
-            <p>Stránka je přidána</p>
+                <div class="flex items-center justify-center text-lg hidden" id="addToProfile">
+                <button type="submit" name="addurl" id="urlAdd" value={{ url_obj.id }}>Přidat do sledovaných</button>
+                    </div>
+            <div class="flex items-center justify-center text-lg italic" id="removeFromProfile">
+            <p>Stránka je ve sledovaných</p>
+                <div class="pl-1">
+                <button id="urlDelete" obj-id={{ url_obj.id }}><span
+                          class="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700"
+                        >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                            />
+                          </svg>
+
+                          <p class="whitespace-nowrap text-sm">Odebrat</p>
+                        </span>
+                    </button>
+                </div>
+
             </div>
         {% endif %}
     {% else %}
@@ -106,4 +141,38 @@
     </div>
 </div>
 
+        <script>
+$(document).ready(function() {
+    $("#urlDelete").click( function() {
+        var url_id = $(this).attr('obj-id');
+        $.ajax({
+            url: {% url "remove_value" %},
+            data: {
+                'url_id': url_id,
+            },
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+                $('#removeFromProfile').addClass('hidden');
+                $('#addToProfile').removeClass('hidden');
+            }
+        });
+    });
+    $("#urlAdd").click( function() {
+        var url_id = $(this).val();
+        $.ajax({
+            url: {% url "add_value" %},
+            data: {
+                'url_id': url_id,
+            },
+            dataType: 'json',
+            success: function(data) {
+                console.log(data);
+                $('#removeFromProfile').removeClass('hidden');
+                $('#addToProfile').addClass('hidden');
+            }
+        });
+    });
+});
+</script>
 {% endblock %}
