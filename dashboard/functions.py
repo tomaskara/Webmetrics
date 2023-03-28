@@ -9,10 +9,19 @@ def create_plot(query_set, metric, device):
         fig = px.line(x=dates, y=metrics)
         if metric == 'lcp':
             limits = [2500, 4000]
+            y_min = min(clean_metrics) - 100
+            y_max = max(clean_metrics) + 100
         elif metric == 'fid':
             limits = [100, 300]
+            y_min = min(clean_metrics) - 10
+            y_max = max(clean_metrics) + 10
         else:
             limits = [0.1, 0.25]
+            y_min = min(clean_metrics) - 0.1
+            y_max = max(clean_metrics) + 0.1
+    if y_min < 0:
+        y_min = 0
+
         # add color stripes
         fig.add_shape(
             type='rect',
@@ -60,7 +69,7 @@ def create_plot(query_set, metric, device):
                     'font': {'size': 24}
                 },
 
-                yaxis_range=[min(clean_metrics) - 5, max(clean_metrics) + 5],
+                yaxis_range=[y_min, y_max],
             )
         return fig
     else:
