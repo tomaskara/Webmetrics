@@ -19,8 +19,8 @@ def create_plot(query_set, metric, device):
             limits = [0.1, 0.25]
             y_min = min(clean_metrics) - 0.1
             y_max = max(clean_metrics) + 0.1
-    if y_min < 0:
-        y_min = 0
+        if y_min < 0:
+            y_min = 0
 
         # add color stripes
         fig.add_shape(
