@@ -53,24 +53,15 @@ def create_plot(query_set, metric, device):
             opacity=0.4,
             line_width=0
         )
-        if metric == 'cls':
-            fig.update_layout(
-                title={
-                    'text': f"{metric}",
-                    'font': {'size': 24}
-                },
 
-                yaxis_range=[min(clean_metrics) - 0.1, max(clean_metrics) + 0.1],
-            )
-        else:
-            fig.update_layout(
-                title={
-                    'text': f"{metric}",
-                    'font': {'size': 24}
-                },
+        fig.update_layout(
+            title={
+                'text': f"{metric}",
+                'font': {'size': 24}
+            },
 
-                yaxis_range=[y_min, y_max],
-            )
+            yaxis_range=[y_min, y_max],
+        )
         return fig
     else:
         return "Data nejsou k dispozici"
