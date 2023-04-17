@@ -3,7 +3,7 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    <h1 class="flex items-center justify-center text-2xl font-bold">Rychlost pro stránku: {{ web_name }}</h1>
+    <h1 class="flex items-center justify-center text-2xl font-bold pt-8">Rychlost pro stránku: {{ web_name }}</h1>
     {% if user.is_authenticated %}
         {% if not url_added %}
                 <div class="flex items-center justify-center text-lg" id="addToProfile">
@@ -130,14 +130,20 @@
 
 <div id="plotly-chart" class="container mx-auto px-4">
 
-    <div {% if chart1 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% endif %}>
+    <div {% if chart1 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% else %} class="pb-4" {% endif %}>
+    <div class="shadow-md">
   {{ chart1|safe }}
+        </div>
     </div>
-    <div {% if chart2 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% endif %}>
+    <div {% if chart2 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% else %} class="pb-4 shadow-sm" {% endif %}>
+    <div class="shadow-md">
       {{ chart2|safe }}
+        </div>
     </div>
-    <div {% if chart3 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% endif %}>
+    <div {% if chart3 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% else %} class="pb-4 shadow-sm" {% endif %}>
+    <div class="shadow-md">
       {{ chart3|safe }}
+        </div>
     </div>
 </div>
 

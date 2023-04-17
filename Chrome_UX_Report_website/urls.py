@@ -27,6 +27,7 @@ urlpatterns = [
     path('', views.home),
     path('test/', views.test),
     path('', include('dashboard.urls')),
+    path('', include('articles.urls')),
     path("profile/", views.profilepage, name="profilepage"),
     path('change-value/', views.change_value, name='change_value'),
     path('markdownx/', include('markdownx.urls'))

@@ -1,9 +1,7 @@
-from django.contrib import admin
 from django.urls import path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from dashboard.views import dashboard, remove_profile_url, add_profile_url
-from speedcheck.views import change_value
 
 
 urlpatterns = [
