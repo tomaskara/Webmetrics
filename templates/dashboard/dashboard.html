@@ -149,30 +149,28 @@
 
 
 <script>
-document.querySelector(document).ready(function() {
-    document.getElementById("urlDelete").addEventListener("click", function() {
-        var url_id = document.querySelector(this).attr('obj-id');
-        fetch('/remove-value/?url_id=' + url_id)
-          .then(response => response.json())
-          .then(data => {
-              console.log(data);
-              document.getElementById('removeFromProfile').classList.add('hidden');
-              document.getElementById('addToProfile').classList.remove('hidden');
-          })
-          .catch(error => console.error(error));
-        });
-    
-    document.getElementById("urlAdd").addEventListener("click", function() {
-        var url_id = document.querySelector(this).value;
-        fetch('/add-value/?url_id=' + url_id)
-          .then(response => response.json())
-          .then(data => {
-              console.log(data);
-              document.getElementById('removeFromProfile').classList.remove('hidden');
-              document.getElementById('addToProfile').classList.add('hidden');
-          })
-          .catch(error => console.error(error));
-        });
-});
+  document.getElementById("urlDelete").addEventListener("click", function() {
+      var url_id = document.querySelector(this).attr('obj-id');
+      fetch('/remove-value/?url_id=' + url_id)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            document.getElementById('removeFromProfile').classList.add('hidden');
+            document.getElementById('addToProfile').classList.remove('hidden');
+        })
+        .catch(error => console.error(error));
+      });
+  
+  document.getElementById("urlAdd").addEventListener("click", function() {
+      var url_id = document.querySelector(this).value;
+      fetch('/add-value/?url_id=' + url_id)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            document.getElementById('removeFromProfile').classList.remove('hidden');
+            document.getElementById('addToProfile').classList.add('hidden');
+        })
+        .catch(error => console.error(error));
+      });
 </script>
 {% endblock %}
