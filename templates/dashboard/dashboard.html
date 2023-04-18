@@ -147,38 +147,32 @@
     </div>
 </div>
 
-        <script>
-$(document).ready(function() {
-    $("#urlDelete").click( function() {
-        var url_id = $(this).attr('obj-id');
-        $.ajax({
-            url: {% url "remove_value" %},
-            data: {
-                'url_id': url_id,
-            },
-            dataType: 'json',
-            success: function(data) {
-                console.log(data);
-                $('#removeFromProfile').addClass('hidden');
-                $('#addToProfile').removeClass('hidden');
-            }
-        });
-    });
-    $("#urlAdd").click( function() {
-        var url_id = $(this).val();
-        $.ajax({
-            url: {% url "add_value" %},
-            data: {
-                'url_id': url_id,
-            },
-            dataType: 'json',
-            success: function(data) {
-                console.log(data);
-                $('#removeFromProfile').removeClass('hidden');
-                $('#addToProfile').addClass('hidden');
-            }
-        });
-    });
-});
+
+<script>
+  const urlDeleteBtn = document.getElementById("urlDelete");
+  urlDeleteBtn.addEventListener('click', function() {
+      var url_id = this.getAttribute('obj-id');
+      fetch('/remove-value/?url_id=' + url_id)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            document.getElementById('removeFromProfile').classList.add('hidden');
+            document.getElementById('addToProfile').classList.remove('hidden');
+        })
+        .catch(error => console.error(error));
+      });
+
+  const urlAddBtn = document.getElementById("urlAdd");
+  urlAddBtn.addEventListener('click', function() {
+      var url_id = this.value;
+      fetch('/add-value/?url_id=' + url_id)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            document.getElementById('removeFromProfile').classList.remove('hidden');
+            document.getElementById('addToProfile').classList.add('hidden');
+        })
+        .catch(error => console.error(error));
+      });
 </script>
 {% endblock %}
