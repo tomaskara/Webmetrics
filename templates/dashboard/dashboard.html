@@ -149,7 +149,8 @@
 
 
 <script>
-  document.getElementById("urlDelete").addEventListener("click", function() {
+  const urlDeleteBtn = document.getElementById("urlDelete");
+  urlDeleteBtn.addEventListener('click', () => {
       var url_id = document.querySelector(this).attr('obj-id');
       fetch('/remove-value/?url_id=' + url_id)
         .then(response => response.json())
@@ -160,8 +161,9 @@
         })
         .catch(error => console.error(error));
       });
-  
-  document.getElementById("urlAdd").addEventListener("click", function() {
+
+  const urlAddBtn = document.getElementById("urlAdd");
+  urlAddBtn.addEventListener('click', () => {
       var url_id = document.querySelector(this).value;
       fetch('/add-value/?url_id=' + url_id)
         .then(response => response.json())
