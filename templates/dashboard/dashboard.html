@@ -150,7 +150,7 @@
 
 <script>
 document.querySelector(document).ready(function() {
-    document.querySelector("#urlDelete").click( function() {
+    document.querySelector("#urlDelete").addEventListener("click", function() {
         var url_id = document.querySelector(this).attr('obj-id');
         fetch('/remove-value/?url_id=' + url_id)
           .then(response => response.json())
@@ -162,7 +162,7 @@ document.querySelector(document).ready(function() {
           .catch(error => console.error(error));
         });
     
-    document.querySelector("#urlAdd").click( function() {
+    document.querySelector("#urlAdd").addEventListener("click", function() {
         var url_id = document.querySelector(this).value;
         fetch('/add-value/?url_id=' + url_id)
           .then(response => response.json())
