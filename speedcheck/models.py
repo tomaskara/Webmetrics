@@ -34,6 +34,30 @@ class CruxHistory(models.Model):
 
     def __str__(self):
         return f"{self.url},{self.date},{self.clsm},{self.clsd}"
+    
+
+class CruxWeeklyHistory(models.Model):
+    url = models.ForeignKey(Urls, on_delete=models.CASCADE)
+    lastdate = models.DateField(auto_now=False, auto_now_add=False)
+    clsm = models.FloatField(null=True, default=None)
+    clsd = models.FloatField(null=True, default=None)
+    lcpm = models.FloatField(null=True, default=None)
+    lcpd = models.FloatField(null=True, default=None)
+    fidm = models.FloatField(null=True, default=None)
+    fidd = models.FloatField(null=True, default=None)
+    inpm = models.FloatField(null=True, default=None)
+    inpd = models.FloatField(null=True, default=None)
+    ttfbm = models.FloatField(null=True, default=None)
+    ttfbd = models.FloatField(null=True, default=None)
+    fcpm = models.FloatField(null=True, default=None)
+    fcpd = models.FloatField(null=True, default=None)
+
+    class Meta:
+        unique_together = [("url", "lastdate")]
+        get_latest_by = 'lastdate'
+
+    def __str__(self):
+        return f"{self.url},{self.lastdate},{self.clsm},{self.clsd}"
 
 
 class Profile(models.Model):

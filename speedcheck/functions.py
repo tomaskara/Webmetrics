@@ -14,8 +14,14 @@ from speedcheck.models import Urls, CruxHistory, ProfileUrl
 from dashboard.functions import create_plot
 
 BASE_DIR = settings.BASE_DIR
-# project_folder = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+shortcuts = {"largest_contentful_paint": "lcp",
+                "first_input_delay": "fid",
+                "cumulative_layout_shift": "cls",
+                "first_contentful_paint": "fcp",
+                "experimental_time_to_first_byte": "ttfb",
+                "experimental_interaction_to_next_paint": "inp"}
 
 
 def get_all_urls_data():
@@ -26,25 +32,11 @@ def get_all_urls_data():
 
 def get_api_data(url):
     api_url = f"https://chromeuxreport.googleapis.com/v1/records:queryRecord?key={os.getenv('API_KEY')}"
-    shortcuts = {"largest_contentful_paint": "lcp",
-                 "first_input_delay": "fid",
-                 "cumulative_layout_shift": "cls",
-                 "first_contentful_paint": "fcp",
-                 "experimental_time_to_first_byte": "ttfb",
-                 "experimental_interaction_to_next_paint": "inp"}
     for device in ["PHONE", "DESKTOP"]:
         request_body = {
-
             "url": url,
             "formFactor": device,
-            "metrics": [
-                "largest_contentful_paint",
-                "first_input_delay",
-                "cumulative_layout_shift",
-                "first_contentful_paint",
-                "experimental_time_to_first_byte",
-                "experimental_interaction_to_next_paint"
-            ]
+            "metrics": list(shortcuts.keys())
         }
 
         api_call = requests.post(api_url, json=request_body)
@@ -78,6 +70,21 @@ def get_api_data(url):
                 object_to_update = CruxHistory.objects.filter(url__url=url, date=date)
                 object_to_update.update(**new_values)
     return
+
+def get_api_history_data(url):
+    api_url = f"https://chromeuxreport.googleapis.com/v1/records:queryHistoryRecord?key={os.getenv('API_KEY')}"
+    for device in ["PHONE", "DESKTOP"]:
+        request_body = {
+            "url": url,
+            "formFactor": device,
+            "metrics": list(shortcuts.keys())
+        }
+        api_call = requests.post(api_url, json=request_body)
+        if api_call.status_code == 404:
+            continue
+        json_response = api_call.json()
+        for date in json_response['record']['collectionPeriods']:
+            pass
 
 
 def email_trigger(url, new_values):
