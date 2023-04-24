@@ -51,6 +51,7 @@ class CruxWeeklyHistory(models.Model):
     ttfbd = models.FloatField(null=True, default=None)
     fcpm = models.FloatField(null=True, default=None)
     fcpd = models.FloatField(null=True, default=None)
+    
 
     class Meta:
         unique_together = [("url", "lastdate")]

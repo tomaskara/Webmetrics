@@ -8,20 +8,19 @@ from statistics import mean
 from dotenv import load_dotenv
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from email.mime.image import MIMEImage
 from django.conf import settings
-from speedcheck.models import Urls, CruxHistory, ProfileUrl
+from speedcheck.models import Urls, CruxHistory, ProfileUrl, CruxWeeklyHistory
 from dashboard.functions import create_plot
 
 BASE_DIR = settings.BASE_DIR
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 shortcuts = {"largest_contentful_paint": "lcp",
-                "first_input_delay": "fid",
-                "cumulative_layout_shift": "cls",
-                "first_contentful_paint": "fcp",
-                "experimental_time_to_first_byte": "ttfb",
-                "experimental_interaction_to_next_paint": "inp"}
+             "first_input_delay": "fid",
+             "cumulative_layout_shift": "cls",
+             "first_contentful_paint": "fcp",
+             "experimental_time_to_first_byte": "ttfb",
+             "experimental_interaction_to_next_paint": "inp"}
 
 
 def get_all_urls_data():
@@ -43,9 +42,10 @@ def get_api_data(url):
         if api_call.status_code == 404:
             continue
         json_response = api_call.json()
-        date = datetime.date(json_response['record']['collectionPeriod']['lastDate']['year'],
-                             json_response['record']['collectionPeriod']['lastDate']['month'],
-                             json_response['record']['collectionPeriod']['lastDate']['day'])
+        date = datetime.date(
+            json_response['record']['collectionPeriod']['lastDate']['year'],
+            json_response['record']['collectionPeriod']['lastDate']['month'],
+            json_response['record']['collectionPeriod']['lastDate']['day'])
 
         if device == "PHONE":
             # check if combination url and date exists in db, if not: create new record with values for mobile
@@ -53,7 +53,8 @@ def get_api_data(url):
                 new_values = {"url": Urls.objects.get(url=url),
                               "date": date}
                 for name, value in json_response['record']['metrics'].items():
-                    new_values[f"{shortcuts[name]}m"] = float(value['percentiles']['p75'])
+                    new_values[f"{shortcuts[name]}m"] = float(
+                        value['percentiles']['p75'])
                 CruxHistory.objects.create(**new_values)
                 metrics_to_alert = email_trigger(url, new_values)
                 if metrics_to_alert:
@@ -63,13 +64,16 @@ def get_api_data(url):
                         pass
         elif device == "DESKTOP":
             # check if combination url and date exists with empty desktop values, if yes: update desktop values
-            if CruxHistory.objects.filter(url__url=url, date=date, clsd__isnull=True).exists():
+            if CruxHistory.objects.filter(url__url=url, date=date,
+                                          clsd__isnull=True).exists():
                 new_values = {}
                 for name, value in json_response['record']['metrics'].items():
-                    new_values[f"{shortcuts[name]}d"] = float(value['percentiles']['p75'])
+                    new_values[f"{shortcuts[name]}d"] = float(
+                        value['percentiles']['p75'])
                 object_to_update = CruxHistory.objects.filter(url__url=url, date=date)
                 object_to_update.update(**new_values)
     return
+
 
 def get_api_history_data(url):
     api_url = f"https://chromeuxreport.googleapis.com/v1/records:queryHistoryRecord?key={os.getenv('API_KEY')}"
@@ -83,13 +87,43 @@ def get_api_history_data(url):
         if api_call.status_code == 404:
             continue
         json_response = api_call.json()
+        dates = []
         for date in json_response['record']['collectionPeriods']:
-            pass
+            date_list = [int(x) for x in date['lastDate'].values()]
+            dates.append(datetime.date(date_list[0], date_list[1], date_list[2]))
+
+        if device == "PHONE":
+            for index, date in enumerate(dates):
+
+                # check if combination url and date exists in db, if not: create new record with values for mobile
+                if not CruxWeeklyHistory.objects.filter(url__url=url,
+                                                        lastdate=date).exists():
+                    new_values = {"url": Urls.objects.get(url=url),
+                                  "lastdate": date}
+                    for name, value in json_response['record'][
+                        'metrics'].items():
+                        new_values[f"{shortcuts[name]}m"] = float(
+                            value['percentilesTimeseries']['p75s'][index])
+                    CruxWeeklyHistory.objects.create(**new_values)
+
+        elif device == "DESKTOP":
+            for index, date in enumerate(dates):
+                # check if combination url and date exists with empty desktop values, if yes: update desktop values
+                if CruxWeeklyHistory.objects.filter(url__url=url, lastdate=date,
+                                              clsd__isnull=True).exists():
+                    new_values = {}
+                    for name, value in json_response['record']['metrics'].items():
+                        new_values[f"{shortcuts[name]}d"] = float(
+                            value['percentilesTimeseries']['p75s'][index])
+                    object_to_update = CruxWeeklyHistory.objects.filter(url__url=url, lastdate=date)
+                    object_to_update.update(**new_values)
+    return
 
 
 def email_trigger(url, new_values):
     query_set_for_url = CruxHistory.objects.filter(url__url=url).order_by('-date')
-    query_list = [entry for entry in query_set_for_url]  # evaluate query set to cache results
+    query_list = [entry for entry in
+                  query_set_for_url]  # evaluate query set to cache results
     metrics_to_alert = {}
     trigger = False
     if len(query_set_for_url) >= 6:
@@ -130,7 +164,8 @@ def send_email(user_email, url, metrics_to_alert):
         server.login(sender_email, password)
         if True:
             message_root = MIMEMultipart("related")
-            message_root["Subject"] = f"ALERT - rychlost pro {url} se zhoršila v metrikách: {', '.join(metrics)}"
+            message_root[
+                "Subject"] = f"ALERT - rychlost pro {url} se zhoršila v metrikách: {', '.join(metrics)}"
             message_root["From"] = sender_email
             message_root["To"] = user_email
             msg_body = MIMEMultipart("alternative")
