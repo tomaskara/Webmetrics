@@ -6,14 +6,12 @@
 {% block content %}
     <div>
     {% for article in articles %}
-        <div class="py-4">
-    <div class="max-w-4xl mx-auto px-4 md:px-8 bg-white shadow py-4">
+    <div class="max-w-4xl mx-auto px-4 md:px-8 bg-white shadow py-4 mt-4">
       <h2><a href="{{ article.slug }}" class="block font-body text-lg font-semibold text-primary transition-colors hover:text-green dark:text-white dark:hover:text-secondary">{{ article.title }}</a></h2>
       <p>{{ article.perex }}</p>
       <p>Uveřejněno {{ article.last_modified|date:"j. F Y"|localize}}</p>
     </div>
         </div>
   {% endfor %}
-    </div>
 
 {% endblock %}
