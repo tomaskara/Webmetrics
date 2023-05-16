@@ -17,6 +17,7 @@ import re
 from django.template import base
 
 
+
 base.tag_re = re.compile(base.tag_re.pattern, re.DOTALL)
 load_dotenv()
 
@@ -36,6 +37,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['www.webmetrics.cz', '127.0.0.1']
 
 LOGIN_REDIRECT_URL = '/profile/'
+LOGOUT_REDIRECT_URL = '/'
 
 LOGIN_URL = '/login/'
 # Application definition

@@ -164,7 +164,7 @@
     </div>
     <form method="post">
     {% csrf_token %}
-    <div class="container mx-auto px-4 py-2">
+    <div class="container lg:max-w-screen-lg mx-auto px-4 py-2">
     <div class="flex justify-end">
     <div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1">
   <button type="submit"
@@ -183,7 +183,7 @@
     </div>
         </form>
 
-<div id="plotly-chart" class="container mx-auto px-4">
+<div id="plotly-chart" class="container lg:max-w-screen-lg mx-auto px-0.5 md:px-4">
 
     <div {% if chart1 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% else %} class="pb-4" {% endif %}>
     <div class="shadow-md">

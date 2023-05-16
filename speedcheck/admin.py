@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import CruxHistory
+from .models import CruxHistory, Annotations
 
 admin.site.register(CruxHistory)
-# Register your models here.
+admin.site.register(Annotations)
+

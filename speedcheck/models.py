@@ -79,3 +79,14 @@ class ProfileUrl(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     url = models.ForeignKey(Urls, on_delete=models.CASCADE)
     email_alert = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.url.url}"
+
+
+class Annotations(models.Model):
+    profileurl = models.ForeignKey(ProfileUrl, on_delete=models.CASCADE)
+    date = models.DateField(auto_now=False, auto_now_add=False)
+    annotation_title = models.CharField(max_length=10)
+    annotation_text = models.CharField(max_length=255)
+

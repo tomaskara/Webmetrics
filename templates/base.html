@@ -4,7 +4,6 @@
     {% load static %}
     <link href="{% static 'output.css' %}" rel="stylesheet">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My amazing site{% endblock %}</title>
 </head>
@@ -42,42 +41,6 @@
                 href="{% url 'article_list' %}"
               >
                 Články
-              </a>
-            </li>
-
-            <li>
-              <a
-                class="text-gray-500 transition hover:text-gray-500/75"
-                href="/"
-              >
-                X
-              </a>
-            </li>
-
-            <li>
-              <a
-                class="text-gray-500 transition hover:text-gray-500/75"
-                href="/"
-              >
-                X
-              </a>
-            </li>
-
-            <li>
-              <a
-                class="text-gray-500 transition hover:text-gray-500/75"
-                href="/"
-              >
-                X
-              </a>
-            </li>
-
-            <li>
-              <a
-                class="text-gray-500 transition hover:text-gray-500/75"
-                href="/"
-              >
-                X
               </a>
             </li>
           </ul>
@@ -156,40 +119,19 @@
             </svg>
           </button>
 
-            <nav aria-label="Main Nav" class="mobile-menu bg-white rounded absolute right-0 flex flex-col block space-y-1 hidden">
+            <nav aria-label="Main Nav" class="mobile-menu bg-white rounded absolute right-0 flex flex-col block space-y-1 mt-2 mr-2 hidden">
               <a
-                href=""
+                href="/"
                 class="block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
               >
-                General
+                Měření
               </a>
 
               <a
-                href=""
+                href="/articles/"
                 class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
               >
-                Teams
-              </a>
-
-              <a
-                href=""
-                class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-              >
-                Billing
-              </a>
-
-              <a
-                href=""
-                class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-              >
-                Invoices
-              </a>
-
-              <a
-                href=""
-                class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-              >
-                Account
+                Články
               </a>
             </nav>
 
