@@ -1,7 +1,6 @@
 import smtplib, ssl
 import os
 import hashlib
-import json
 import requests
 import datetime
 from statistics import mean
@@ -20,7 +19,7 @@ shortcuts = {"largest_contentful_paint": "lcp",
              "cumulative_layout_shift": "cls",
              "first_contentful_paint": "fcp",
              "experimental_time_to_first_byte": "ttfb",
-             "experimental_interaction_to_next_paint": "inp"}
+             "interaction_to_next_paint": "inp"}
 
 
 def get_all_urls_data():

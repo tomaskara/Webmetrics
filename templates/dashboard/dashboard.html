@@ -67,21 +67,24 @@
       <div class="grid row-gap-8 sm:grid-cols-3">
       {% with latest_crux=url_obj.cruxhistory_set.latest %}
         <div class="text-center sm:border-r px-2">
-          <h6 class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="100" high-treshold="300">
+            <a href="#fid-chart">
+              <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="100" high-treshold="300">
 
-                        {% if device == "m" %}
-                            {{ latest_crux.fidm }}
-                        {% else %}
-                            {{ latest_crux.fidd }}
-                        {% endif %}
+                            {% if device == "m" %}
+                                {{ latest_crux.fidm }}
+                            {% else %}
+                                {{ latest_crux.fidd }}
+                            {% endif %}
 
-          </h6>
+              </div>
+            </a>
           <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
             Fid
           </p>
         </div>
         <div class="text-center sm:border-r px-2">
-          <h6 class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="2500" high-treshold="4000">
+        <a href="#lcp-chart">
+          <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="2500" high-treshold="4000">
 
                         {% if device == "m" %}
                             {{ latest_crux.lcpm }}
@@ -89,13 +92,15 @@
                             {{ latest_crux.lcpd }}
                         {% endif %}
 
-          </h6>
+          </div>
+        </a>
           <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
             Lcp
           </p>
         </div>
         <div class="text-center sm:border-r px-2">
-          <h6 class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="0.1" high-treshold="0.25">
+        <a href="#cls-chart">
+          <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="0.1" high-treshold="0.25">
 
                       {% if device == "m" %}
                         {{ latest_crux.clsm }}
@@ -103,7 +108,8 @@
                         {{ latest_crux.clsd }}
                       {% endif %}
 
-          </h6>
+          </div>
+        </a>
           <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
             Cls
           </p>
@@ -118,7 +124,7 @@
         <div id="other-web-vitals-body" class="grid row-gap-8 sm:grid-cols-3 max-h-0 overflow-hidden transition-all duration-200 ease-out">
       {% with latest_crux=url_obj.cruxhistory_set.latest %}
         <div class="text-center sm:border-r px-2">
-          <h6 class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="200" high-treshold="500">
+          <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="200" high-treshold="500">
 
                         {% if device == "m" %}
                             {{ latest_crux.inpm }}
@@ -126,13 +132,13 @@
                             {{ latest_crux.inpd }}
                         {% endif %}
 
-          </h6>
+          </div>
           <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
             Inp
           </p>
         </div>
         <div class="text-center sm:border-r px-2">
-          <h6 class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="800" high-treshold="1800">
+          <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="800" high-treshold="1800">
 
                         {% if device == "m" %}
                             {{ latest_crux.ttfbm }}
@@ -140,13 +146,13 @@
                             {{ latest_crux.ttfbd }}
                         {% endif %}
 
-          </h6>
+          </div>
           <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
             Ttfb
           </p>
         </div>
         <div class="text-center sm:border-r px-2">
-          <h6 class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="1800" high-treshold="3000">
+          <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="1800" high-treshold="3000">
 
                       {% if device == "m" %}
                         {{ latest_crux.fcpm }}
@@ -154,7 +160,7 @@
                         {{ latest_crux.fcpd }}
                       {% endif %}
 
-          </h6>
+          </div>
           <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
             Fcp
           </p>
@@ -186,17 +192,17 @@
 <div id="plotly-chart" class="container lg:max-w-screen-lg mx-auto px-0.5 md:px-4">
 
     <div {% if chart1 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% else %} class="pb-4" {% endif %}>
-    <div class="shadow-md">
+    <div id="fid-chart" class="shadow-md">
   {{ chart1|safe }}
         </div>
     </div>
     <div {% if chart2 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% else %} class="pb-4 shadow-sm" {% endif %}>
-    <div class="shadow-md">
+    <div id="lcp-chart" class="shadow-md">
       {{ chart2|safe }}
         </div>
     </div>
     <div {% if chart3 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% else %} class="pb-4 shadow-sm" {% endif %}>
-    <div class="shadow-md">
+    <div id="cls-chart" class="shadow-md">
       {{ chart3|safe }}
         </div>
     </div>

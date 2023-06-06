@@ -45,17 +45,17 @@ def dashboard(request, url_id):
 
         }
     )
-    chart1 = create_plot(data, "lcp", device, annotations)
+    chart1 = create_plot(data, "fid", device, annotations)
     if type(chart1) != str:
-        chart1 = chart1.to_html(config=config, include_plotlyjs="cdn")
+        chart1 = chart1.to_html(config=config, include_plotlyjs=False)
 
-    chart2 = create_plot(data, "fid", device, annotations)
+    chart2 = create_plot(data, "lcp", device, annotations)
     if type(chart2) != str:
-        chart2 = chart2.to_html(config=config, include_plotlyjs="cdn")
+        chart2 = chart2.to_html(config=config, include_plotlyjs=False)
 
     chart3 = create_plot(data, "cls", device, annotations)
     if type(chart3) != str:
-        chart3 = chart3.to_html(config=config, include_plotlyjs="cdn")
+        chart3 = chart3.to_html(config=config, include_plotlyjs=False)
     return render(
         request,
         "dashboard/dashboard.html",
