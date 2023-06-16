@@ -79,6 +79,7 @@ class ProfileUrl(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     url = models.ForeignKey(Urls, on_delete=models.CASCADE)
     email_alert = models.BooleanField(default=False)
+    sensitivity = models.IntegerField(default=2)
 
     def __str__(self):
         return f"{self.url.url}"

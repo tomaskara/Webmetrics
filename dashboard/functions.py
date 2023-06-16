@@ -1,5 +1,4 @@
 import plotly.express as px
-import datetime
 
 
 def create_plot(query_set, metric, device, annotations=None):

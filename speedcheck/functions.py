@@ -51,16 +51,17 @@ def get_api_data(url):
             if not CruxHistory.objects.filter(url__url=url, date=date).exists():
                 new_values = {"url": Urls.objects.get(url=url),
                               "date": date}
+                # create dictionary of new values from API
                 for name, value in json_response['record']['metrics'].items():
                     new_values[f"{shortcuts[name]}m"] = float(
                         value['percentiles']['p75'])
+                # save new values to database
                 CruxHistory.objects.create(**new_values)
-                metrics_to_alert = email_trigger(url, new_values)
-                if metrics_to_alert:
-                    try:
-                        email_launcher(url, metrics_to_alert)
-                    except:
-                        pass
+                # check if there are some alerts set for current url
+                if ProfileUrl.objects.filter(url__url=url,
+                                             email_alert=True).exists():
+                    email_launcher(url, new_values)
+
         elif device == "DESKTOP":
             # check if combination url and date exists with empty desktop values, if yes: update desktop values
             if CruxHistory.objects.filter(url__url=url, date=date,
@@ -93,7 +94,6 @@ def get_api_history_data(url):
 
         if device == "PHONE":
             for index, date in enumerate(dates):
-
                 # check if combination url and date exists in db, if not: create new record with values for mobile
                 if not CruxWeeklyHistory.objects.filter(url__url=url,
                                                         lastdate=date).exists():
@@ -119,7 +119,7 @@ def get_api_history_data(url):
     return
 
 
-def email_trigger(url, new_values):
+def email_trigger(url, new_values, sensitivity=2):
     query_set_for_url = CruxHistory.objects.filter(url__url=url).order_by('-date')
     query_list = [entry for entry in
                   query_set_for_url]  # evaluate query set to cache results
@@ -129,27 +129,58 @@ def email_trigger(url, new_values):
         clsm = [q.clsm for q in query_set_for_url[1:6]]
         fidm = [q.fidm for q in query_set_for_url[1:6]]
         lcpm = [q.lcpm for q in query_set_for_url[1:6]]
-        if new_values['clsm'] > mean(clsm):
-            metrics_to_alert["clsm"] = [new_values['clsm'], mean(clsm)]
-            trigger = True
-        if new_values['fidm'] > mean(fidm):
-            metrics_to_alert["fidm"] = [new_values['fidm'], mean(fidm)]
-            trigger = True
-        if new_values['lcpm'] > mean(lcpm):
-            metrics_to_alert["lcpm"] = [new_values['lcpm'], mean(lcpm)]
-            trigger = True
-        if trigger:
-            return metrics_to_alert
+        if sensitivity == 1:
+            if new_values['clsm'] > mean(clsm):
+                metrics_to_alert["clsm"] = [new_values['clsm'], mean(clsm)]
+                trigger = True
+            if new_values['fidm'] > mean(fidm):
+                metrics_to_alert["fidm"] = [new_values['fidm'], mean(fidm)]
+                trigger = True
+            if new_values['lcpm'] > mean(lcpm):
+                metrics_to_alert["lcpm"] = [new_values['lcpm'], mean(lcpm)]
+                trigger = True
+            if trigger:
+                return metrics_to_alert
+        elif sensitivity == 2:
+            if new_values['clsm'] >= 0.8:
+                if new_values['clsm'] > mean(clsm):
+                    metrics_to_alert["clsm"] = [new_values['clsm'], mean(clsm)]
+                    trigger = True
+            if new_values['fidm'] >= 80:
+                if new_values['fidm'] > mean(fidm):
+                    metrics_to_alert["fidm"] = [new_values['fidm'], mean(fidm)]
+                    trigger = True
+            if new_values['lcpm'] >= 2500:
+                if new_values['lcpm'] > mean(lcpm):
+                    metrics_to_alert["lcpm"] = [new_values['lcpm'], mean(lcpm)]
+                    trigger = True
+            if trigger:
+                return metrics_to_alert
+
 
     else:
         return False
 
 
-def email_launcher(url, metrics_to_alert):
+"""def email_launcher(url, metrics_to_alert):
     alerts = ProfileUrl.objects.filter(email_alert=True, url__url=url)
     for alert in alerts:
         user_email = alert.profile.user.email
-        send_email(user_email, url, metrics_to_alert)
+        send_email(user_email, url, metrics_to_alert)"""
+
+def email_launcher(url, new_values):
+    alerts_s1 = ProfileUrl.objects.filter(email_alert=True, url__url=url, sensitivity=1)
+    alerts_s2 = ProfileUrl.objects.filter(email_alert=True, url__url=url, sensitivity=2)
+    trigger_s1 = email_trigger(url, new_values, 1)
+    trigger_s2 = email_trigger(url, new_values, 2)
+    if alerts_s1 and trigger_s1:
+        for alert in alerts_s1:
+            user_email = alert.profile.user.email
+            send_email(user_email, url, trigger_s1)
+    if alerts_s2 and trigger_s2:
+        for alert in alerts_s2:
+            user_email = alert.profile.user.email
+            send_email(user_email, url, trigger_s2)
 
 
 def send_email(user_email, url, metrics_to_alert):

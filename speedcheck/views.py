@@ -66,7 +66,11 @@ def change_value(request):
     value = request.GET.get('value')
     url_id = int(request.GET.get('url_id'))
     profile_url_object = ProfileUrl.objects.get(id=url_id)
-    profile_url_object.email_alert = value
+    if value == "off":
+        profile_url_object.email_alert = False
+    else:
+        profile_url_object.email_alert = True
+        profile_url_object.sensitivity = int(value)
     profile_url_object.save()
     return JsonResponse({'success': True})
 

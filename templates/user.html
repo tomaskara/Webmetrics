@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div id="urls" class="flex items-center justify-center mt-6">
+    <div id="urls" class="flex flex-col items-center justify-center mt-6">
         <table class="table-auto border-collapse bg-white">
             <thead class="border-b">
                 <tr>
@@ -35,10 +35,11 @@
                     <tr class="border-b">
                         <td class="px-3 py-2"><a href={% url "dashboard" profile_url.url.id %}>{{ profile_url.url.url }}</a>
                             <td class="px-3 py-2"><div class="form-check">
-      <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white
-      checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 my-1 align-top
-      bg-no-repeat bg-center bg-contain float-left cursor-pointer" type="checkbox" value={{ profile_url.id }} id="email_alert"
-      {% if profile_url.email_alert %}checked{% endif %}>
+      <select class="py-1 px-2 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500" url-id={{ profile_url.id }} id="email_alert">
+        <option {% if not profile_url.email_alert %}selected{% endif %} value="off">OFF</option>
+        <option {% if profile_url.email_alert and profile_url.sensitivity == 1 %}selected{% endif %} value="1">Level 1</option>
+        <option {% if profile_url.email_alert and profile_url.sensitivity == 2 %}selected{% endif %} value="2">Level 2</option>
+      </select>
     </div></td>
                         {% with latest_crux=profile_url.url.cruxhistory_set.latest %}
                             {% with lcpm=latest_crux.lcpm %}
@@ -78,6 +79,23 @@
                 {% endfor %}
             </tbody>
         </table>
+            <div
+          class="relative flex items-start justify-between rounded-xl border border-gray-100 max-w-xl bg-white p-4 my-4 shadow-xl sm:p-6 lg:p-8"
+        >
+          <div class="pt-0.5 text-gray-500">
+
+            <h3 class="mt-0.5 text-lg font-bold text-gray-900 sm:text-xl">
+              Nastavení alertů
+            </h3>
+
+            <p class="mt-2 text-sm sm:block">
+                <b>OFF</b> - vypnuto<br>
+                <b>Level 1</b> - report každého pohybu směrem nahoru nad průměr za posledních 5 dní<br>
+                <b>Level 2</b> - jako level 1, ale ignoruje pohyby, které jsou dostatečně nízko v zeleném pásmů metrik
+
+            </p>
+          </div>
+        </div>
     </div>
     <div id="annotations" class="hidden flex flex-col items-center justify-center mt-6">
         <table id="annt-table" class="table-auto border-collapse bg-white my-2">
@@ -136,22 +154,17 @@
     </div>
 
     <script>
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(function(checkbox) {
-        checkbox.addEventListener("click", function() {
-          let value;
-          if (this.checked) {
-            value = "True";
-          } else {
-            value = "False";
-          }
-          const url_id = this.value;
-          fetch('/change-value/?url_id=' + url_id + '&value=' + value)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            })
-            .catch(error => console.error(error));
+    const selectors = document.querySelectorAll('select');
+    selectors.forEach(function(select) {
+        select.addEventListener("change", function() {
+            const selectedValue = select.value;
+            const url_id = select.getAttribute('url-id');
+            fetch('/change-value/?url_id=' + url_id + '&value=' + selectedValue)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => console.error(error));
           });
         });
     const tab_urls = document.getElementById("tab_urls");
