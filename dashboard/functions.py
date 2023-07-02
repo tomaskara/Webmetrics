@@ -3,7 +3,7 @@ import plotly.express as px
 
 def create_plot(query_set, metric, device, annotations=None):
     dates = [c.date for c in query_set]
-    metrics = eval(f"[c.{metric}{device} for c in query_set]")
+    metrics = eval(f'[c.{metric}{device} for c in query_set]')
     clean_metrics = [item for item in metrics if item is not None]
     try:
         if metrics[0] is not None:
@@ -77,7 +77,7 @@ def create_plot(query_set, metric, device, annotations=None):
 
             fig.update_layout(
                 title={
-                    'text': f"{metric}",
+                    'text': f'{metric}',
                     'font': {'size': 24}
                 },
                 margin_r=40,
@@ -88,6 +88,6 @@ def create_plot(query_set, metric, device, annotations=None):
             fig.update_xaxes(title=None)
             return fig
         else:
-            return "Data nejsou k dispozici"
+            return 'Data nejsou k dispozici'
     except IndexError:
-        return "Data nejsou k dispozici"
+        return 'Data nejsou k dispozici'

@@ -10,159 +10,172 @@
 </head>
 <body class="flex flex-col min-h-screen bg-amber-50">
 <header aria-label="Site Header" class="bg-white shadow-md">
-  <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-    <div class="flex h-16 items-center justify-between">
-      <div class="md:flex md:items-center md:gap-12">
-        <a class="block text-teal-600" href="/">
-          <span class="sr-only">Home</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-gauge" width="28" height="28" viewBox="0 0 24 24" stroke-width="2" stroke="#219ebc" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <circle cx="12" cy="12" r="9" />
-  <circle cx="12" cy="12" r="1" />
-  <line x1="13.41" y1="10.59" x2="16" y2="8" />
-  <path d="M7 12a5 5 0 0 1 5 -5" />
-</svg>
-        </a>
-      </div>
-      <div class="hidden md:block">
-        <nav aria-label="Site Nav">
-          <ul class="flex items-center gap-6 text-sm">
-            <li>
-              <a
-                class="text-gray-500 transition hover:text-gray-500/75"
-                href="/"
-              >
-                Měření
-              </a>
-            </li>
+    <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 items-center justify-between">
+            <div class="md:flex md:items-center md:gap-12">
+                <a class="block text-teal-600" href="/">
+                    <span class="sr-only">Home</span>
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="icon icon-tabler icon-tabler-gauge" width="28"
+                         height="28" viewBox="0 0 24 24" stroke-width="2"
+                         stroke="#219ebc" fill="none" stroke-linecap="round"
+                         stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <circle cx="12" cy="12" r="9"/>
+                        <circle cx="12" cy="12" r="1"/>
+                        <line x1="13.41" y1="10.59" x2="16" y2="8"/>
+                        <path d="M7 12a5 5 0 0 1 5 -5"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="hidden md:block">
+                <nav aria-label="Site Nav">
+                    <ul class="flex items-center gap-6 text-sm">
+                        <li>
+                            <a
+                                    class="text-gray-500 transition hover:text-gray-500/75"
+                                    href="/"
+                            >
+                                Měření
+                            </a>
+                        </li>
 
-            <li>
-              <a
-                class="text-gray-500 transition hover:text-gray-500/75"
-                href="{% url 'article_list' %}"
-              >
-                Články
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+                        <li>
+                            <a
+                                    class="text-gray-500 transition hover:text-gray-500/75"
+                                    href="{% url 'article_list' %}"
+                            >
+                                Články
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
 
-        {% if user.is_authenticated %}
+            {% if user.is_authenticated %}
 
 
-           <div class="flex items-center gap-4">
-           <div class="min-h-screen py-6 flex flex-col justify-center sm:py-12">
-<div class="flex items-center justify-center p-12">
-  <div class=" relative inline-block text-left dropdown">
-    <span class="rounded-md shadow-sm">
-        <button class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-       type="button" aria-haspopup="true" aria-expanded="true" aria-controls="headlessui-menu-items-117">
-        <span>{{ user.username }}</span>
-        <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-        </button></span>
-    <div class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
-      <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none" aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
-        <div class="py-1">
-          <a href="{% url 'profilepage' %}" tabindex="0" class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" >Zobrazení profilu</a>
-          <a href="{% url 'logout' %}" tabindex="3" class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"  role="menuitem" >Odhlásit</a></div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
+                <div class="flex items-center gap-4">
+                    <div class="min-h-screen py-6 flex flex-col justify-center sm:py-12">
+                        <div class="flex items-center justify-center p-12">
+                            <div class=" relative inline-block text-left dropdown">
+            <span class="rounded-md shadow-sm">
+                <button class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                        type="button" aria-haspopup="true" aria-expanded="true"
+                        aria-controls="headlessui-menu-items-117">
+                <span>{{ user.username }}</span>
+                <svg class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20" fill="currentColor"><path
+                        fill-rule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clip-rule="evenodd"></path></svg>
+                </button></span>
+                                <div class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
+                                    <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
+                                         aria-labelledby="headlessui-menu-button-1"
+                                         id="headlessui-menu-items-117" role="menu">
+                                        <div class="py-1">
+                                            <a href="{% url 'profilepage' %}"
+                                               tabindex="0"
+                                               class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"
+                                               role="menuitem">Zobrazení profilu</a>
+                                            <a href="{% url 'logout' %}" tabindex="3"
+                                               class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"
+                                               role="menuitem">Odhlásit</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-<style>
-.dropdown:focus-within .dropdown-menu {
-  opacity:1;
-  transform: translate(0) scale(1);
-  visibility: visible;
-}
-    </style>
-           </div>
-               {% else %}
-      <div class="flex items-center gap-4">
-        <div class="sm:flex sm:gap-4">
-          <a
-            class="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
-            href="{% url 'login' %}"
-          >
-            Přihlášení
-          </a>
+                    <style>
+                        .dropdown:focus-within .dropdown-menu {
+                            opacity: 1;
+                            transform: translate(0) scale(1);
+                            visibility: visible;
+                        }
+                    </style>
+                </div>
+            {% else %}
+                <div class="flex items-center gap-4">
+                <div class="sm:flex sm:gap-4">
+                    <a
+                            class="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
+                            href="{% url 'login' %}"
+                    >
+                        Přihlášení
+                    </a>
 
-          <div class="hidden sm:flex">
-            <a
-              class="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
-              href="{% url 'django_registration_register' %}"
-            >
-              Registrace
-            </a>
-          </div>
-        </div>
+                    <div class="hidden sm:flex">
+                        <a
+                                class="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
+                                href="{% url 'django_registration_register' %}"
+                        >
+                            Registrace
+                        </a>
+                    </div>
+                </div>
             {% endif %}
-        <div class="block md:hidden">
-          <button id="toggle-menu"
-            class="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
+            <div class="block md:hidden">
+                <button id="toggle-menu"
+                        class="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75"
+                >
+                    <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                    >
+                        <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4 6h16M4 12h16M4 18h16"
+                        />
+                    </svg>
+                </button>
 
-            <nav aria-label="Main Nav" class="mobile-menu bg-white rounded absolute right-0 flex flex-col block space-y-1 mt-2 mr-2 hidden">
-              <a
-                href="/"
-                class="block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
-              >
-                Měření
-              </a>
+                <nav aria-label="Main Nav"
+                     class="mobile-menu bg-white rounded absolute right-0 flex flex-col block space-y-1 mt-2 mr-2 hidden">
+                    <a
+                            href="/"
+                            class="block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
+                    >
+                        Měření
+                    </a>
 
-              <a
-                href="/articles/"
-                class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-              >
-                Články
-              </a>
-            </nav>
+                    <a
+                            href="/articles/"
+                            class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                    >
+                        Články
+                    </a>
+                </nav>
 
+            </div>
+
+            </div>
         </div>
-
-      </div>
-
-
     </div>
-
-  </div>
 </header>
 
 
-        {% block content %}{% endblock %}
+{% block content %}{% endblock %}
 
 <footer class="footer footer-center mt-auto w-full p-4 bg-gray-300 text-gray-800">
-      <div class="text-center">
+    <div class="text-center">
         <p>
-          Vytvořeno 2023 -
-          <a class="font-semibold" href="mailto:tomas.kara.91@gmail.com"
+            Vytvořeno 2023 -
+            <a class="font-semibold" href="mailto:tomas.kara.91@gmail.com"
             >Tomáš Kára</a
-          >
+            >
         </p>
-      </div>
-    </footer>
+    </div>
+</footer>
 <script>
     const button = document.getElementById("toggle-menu");
     const mobile_menu = document.querySelector('.mobile-menu')
-    button.addEventListener("click", function() {
+    button.addEventListener("click", function () {
         mobile_menu.classList.toggle("hidden");
         mobile_menu.classList.toggle("transition");
         mobile_menu.classList.toggle("ease-out");

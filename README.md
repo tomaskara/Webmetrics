@@ -1,4 +1,13 @@
-# Chrome_UX_Report_website
+# Webmetrics.cz
+A web application for monitoring of web page speed history.
+
+## Features
+- Saving daily data from [CrUX API](https://developer.chrome.com/docs/crux/api/) for specified URLs.
+- Visualization of the history of stored data in charts.
+- Possibility to set email alerts for individual url saved in user profile.
+- Possibility insert notes to saved url and visualizing them in a chart.
+
+## Screenshots
 
 ## Built With
 
