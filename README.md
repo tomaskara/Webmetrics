@@ -8,6 +8,12 @@ A web application for monitoring of web page speed history.
 - Possibility insert notes to saved url and visualizing them in a chart.
 
 ## Screenshots
+### Homepage:
+![Homepage](https://github.com/tomaskara/Webmetrics/assets/95649007/34c9cc20-63fd-49c0-86be-538859781389)
+### Dashboard
+![dashboard](https://github.com/tomaskara/Webmetrics/assets/95649007/868961a1-c87a-4db7-a14c-7e339cd002ff)
+### User settings followed urls and alerts
+![user_settings](https://github.com/tomaskara/Webmetrics/assets/95649007/a696931c-d3a1-4d6b-acf6-a90c2948337f)
 
 ## Built With
 
