@@ -3,9 +3,9 @@
 {% block title %}Chyba aktivace{% endblock %}
 
 {% block content %}
-{% if activation_error.code == 'already_activated' %}
-<h1>Účet je aktivován.</h1>
-{% else %}
-<h1>Při aktivaci došlo k chybě: {{ activation_error }}</h1>
-{% endif %}
+    {% if activation_error.code == 'already_activated' %}
+        <h1>Účet je aktivován.</h1>
+    {% else %}
+        <h1>Při aktivaci došlo k chybě: {{ activation_error }}</h1>
+    {% endif %}
 {% endblock %}

@@ -3,26 +3,30 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    <h1 class="flex items-center justify-center text-2xl font-bold pt-8">Rychlost pro stránku: {{ web_name }}</h1>
+    <h1 class="flex items-center justify-center text-2xl font-bold pt-8">Rychlost pro
+        stránku: {{ web_name }}</h1>
     {% if user.is_authenticated %}
         {% if not url_added %}
-                <div class="flex items-center justify-center text-lg" id="addToProfile">
-                <button type="submit" name="addurl" id="urlAdd" value={{ url_obj.id }}>Přidat do sledovaných</button>
-                    </div>
-            <div class="flex items-center justify-center text-lg italic hidden" id="removeFromProfile">
-            <p>Stránka je ve sledovaných</p>
+            <div class="flex items-center justify-center text-lg" id="addToProfile">
+                <button type="submit" name="addurl" id="urlAdd" value={{ url_obj.id }}>
+                    Přidat do sledovaných
+                </button>
+            </div>
+            <div class="flex items-center justify-center text-lg italic hidden"
+                 id="removeFromProfile">
+                <p>Stránka je ve sledovaných</p>
                 <div class="pl-1">
-                <button id="urlDelete" obj-id={{ url_obj.id }}><span
-                          class="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700"
-                        >
+                    <button id="urlDelete" obj-id={{ url_obj.id }}><span
+                            class="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700"
+                    >
                             <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
                             />
-                          </svg>
+                        </svg>
 
-                          <p class="whitespace-nowrap text-sm">Odebrat</p>
+                        <p class="whitespace-nowrap text-sm">Odebrat</p>
                         </span>
                     </button>
                 </div>
@@ -30,23 +34,27 @@
 
             </div>
         {% else %}
-                <div class="flex items-center justify-center text-lg hidden" id="addToProfile">
-                <button type="submit" name="addurl" id="urlAdd" value={{ url_obj.id }}>Přidat do sledovaných</button>
-                    </div>
-            <div class="flex items-center justify-center text-lg italic" id="removeFromProfile">
-            <p>Stránka je ve sledovaných</p>
+            <div class="flex items-center justify-center text-lg hidden"
+                 id="addToProfile">
+                <button type="submit" name="addurl" id="urlAdd" value={{ url_obj.id }}>
+                    Přidat do sledovaných
+                </button>
+            </div>
+            <div class="flex items-center justify-center text-lg italic"
+                 id="removeFromProfile">
+                <p>Stránka je ve sledovaných</p>
                 <div class="pl-1">
-                <button id="urlDelete" obj-id={{ url_obj.id }}><span
-                          class="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700"
-                        >
+                    <button id="urlDelete" obj-id={{ url_obj.id }}><span
+                            class="inline-flex items-center justify-center rounded-full bg-red-100 px-2.5 py-0.5 text-red-700"
+                    >
                             <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
                             />
-                          </svg>
+                        </svg>
 
-                          <p class="whitespace-nowrap text-sm">Odebrat</p>
+                        <p class="whitespace-nowrap text-sm">Odebrat</p>
                         </span>
                     </button>
                 </div>
@@ -55,20 +63,22 @@
         {% endif %}
     {% else %}
         <div class="flex items-center justify-center text-lg">
-        <a href="{% url 'login' %}">Přihlašte se </a><p>&nbsp;pro přidání nebo odebrání stránky ze sledování</p>
+            <a href="{% url 'login' %}">Přihlašte se </a>
+            <p>&nbsp;pro přidání nebo odebrání stránky ze sledování</p>
         </div>
     {% endif %}
     <div class="px-4 py-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
-    <div class="flex items-center">
-      <span class="border-b border-black flex-grow mr-4"></span>
-      <span>Core Web Vitals</span>
-      <span class="border-b border-black flex-grow ml-4"></span>
-    </div>
-      <div class="grid row-gap-8 sm:grid-cols-3">
-      {% with latest_crux=url_obj.cruxhistory_set.latest %}
-        <div class="text-center sm:border-r px-2">
-            <a href="#fid-chart">
-              <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="100" high-treshold="300">
+        <div class="flex items-center">
+            <span class="border-b border-black flex-grow mr-4"></span>
+            <span>Core Web Vitals</span>
+            <span class="border-b border-black flex-grow ml-4"></span>
+        </div>
+        <div class="grid row-gap-8 sm:grid-cols-3">
+            {% with latest_crux=url_obj.cruxhistory_set.latest %}
+                <div class="text-center sm:border-r px-2">
+                    <a href="#fid-chart">
+                        <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl"
+                             low-treshold="100" high-treshold="300">
 
                             {% if device == "m" %}
                                 {{ latest_crux.fidm }}
@@ -76,55 +86,59 @@
                                 {{ latest_crux.fidd }}
                             {% endif %}
 
-              </div>
-            </a>
-          <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
-            Fid
-          </p>
-        </div>
-        <div class="text-center sm:border-r px-2">
-        <a href="#lcp-chart">
-          <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="2500" high-treshold="4000">
+                        </div>
+                    </a>
+                    <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
+                        Fid
+                    </p>
+                </div>
+                <div class="text-center sm:border-r px-2">
+                    <a href="#lcp-chart">
+                        <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl"
+                             low-treshold="2500" high-treshold="4000">
 
-                        {% if device == "m" %}
-                            {{ latest_crux.lcpm }}
-                        {% else %}
-                            {{ latest_crux.lcpd }}
-                        {% endif %}
+                            {% if device == "m" %}
+                                {{ latest_crux.lcpm }}
+                            {% else %}
+                                {{ latest_crux.lcpd }}
+                            {% endif %}
 
-          </div>
-        </a>
-          <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
-            Lcp
-          </p>
-        </div>
-        <div class="text-center sm:border-r px-2">
-        <a href="#cls-chart">
-          <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="0.1" high-treshold="0.25">
+                        </div>
+                    </a>
+                    <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
+                        Lcp
+                    </p>
+                </div>
+                <div class="text-center sm:border-r px-2">
+                    <a href="#cls-chart">
+                        <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl"
+                             low-treshold="0.1" high-treshold="0.25">
 
-                      {% if device == "m" %}
-                        {{ latest_crux.clsm }}
-                      {% else %}
-                        {{ latest_crux.clsd }}
-                      {% endif %}
+                            {% if device == "m" %}
+                                {{ latest_crux.clsm }}
+                            {% else %}
+                                {{ latest_crux.clsd }}
+                            {% endif %}
 
-          </div>
-        </a>
-          <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
-            Cls
-          </p>
-        </div>
-        {% endwith %}
+                        </div>
+                    </a>
+                    <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
+                        Cls
+                    </p>
+                </div>
+            {% endwith %}
         </div>
         <div id="other-web-vitals" class="flex items-center">
             <span class="border-b border-black flex-grow mr-4"></span>
             <span class="cursor-pointer">&#8675; Ostatní Web Vitals &#8675;</span>
             <span class="border-b border-black flex-grow ml-4"></span>
         </div>
-        <div id="other-web-vitals-body" class="grid row-gap-8 sm:grid-cols-3 max-h-0 overflow-hidden transition-all duration-200 ease-out">
-      {% with latest_crux=url_obj.cruxhistory_set.latest %}
-        <div class="text-center sm:border-r px-2">
-          <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="200" high-treshold="500">
+        <div id="other-web-vitals-body"
+             class="grid row-gap-8 sm:grid-cols-3 max-h-0 overflow-hidden transition-all duration-200 ease-out">
+            {% with latest_crux=url_obj.cruxhistory_set.latest %}
+                <div class="text-center sm:border-r px-2">
+                    <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl"
+                         low-treshold="200" high-treshold="500">
 
                         {% if device == "m" %}
                             {{ latest_crux.inpm }}
@@ -132,13 +146,14 @@
                             {{ latest_crux.inpd }}
                         {% endif %}
 
-          </div>
-          <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
-            Inp
-          </p>
-        </div>
-        <div class="text-center sm:border-r px-2">
-          <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="800" high-treshold="1800">
+                    </div>
+                    <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
+                        Inp
+                    </p>
+                </div>
+                <div class="text-center sm:border-r px-2">
+                    <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl"
+                         low-treshold="800" high-treshold="1800">
 
                         {% if device == "m" %}
                             {{ latest_crux.ttfbm }}
@@ -146,123 +161,131 @@
                             {{ latest_crux.ttfbd }}
                         {% endif %}
 
-          </div>
-          <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
-            Ttfb
-          </p>
-        </div>
-        <div class="text-center sm:border-r px-2">
-          <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl" low-treshold="1800" high-treshold="3000">
+                    </div>
+                    <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
+                        Ttfb
+                    </p>
+                </div>
+                <div class="text-center sm:border-r px-2">
+                    <div class="stat-box text-4xl font-bold lg:text-5xl xl:text-6xl"
+                         low-treshold="1800" high-treshold="3000">
 
-                      {% if device == "m" %}
-                        {{ latest_crux.fcpm }}
-                      {% else %}
-                        {{ latest_crux.fcpd }}
-                      {% endif %}
+                        {% if device == "m" %}
+                            {{ latest_crux.fcpm }}
+                        {% else %}
+                            {{ latest_crux.fcpd }}
+                        {% endif %}
 
-          </div>
-          <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
-            Fcp
-          </p>
-        </div>
-        {% endwith %}
+                    </div>
+                    <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
+                        Fcp
+                    </p>
+                </div>
+            {% endwith %}
         </div>
     </div>
     <form method="post">
-    {% csrf_token %}
-    <div class="container lg:max-w-screen-lg mx-auto px-4 py-2">
-    <div class="flex justify-end">
-    <div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1">
-  <button type="submit"
-    class="inline-block rounded-md px-4 py-2 text-sm text-gray-500 hover:text-gray-700 focus:relative {% if device == 'm' %} bg-white shadow-sm {% endif %}" name="mobile" value="m"
-  >
-    Mobil
-  </button>
+        {% csrf_token %}
+        <div class="container lg:max-w-screen-lg mx-auto px-4 py-2">
+            <div class="flex justify-end">
+                <div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1">
+                    <button type="submit"
+                            class="inline-block rounded-md px-4 py-2 text-sm text-gray-500 hover:text-gray-700 focus:relative {% if device == 'm' %} bg-white shadow-sm {% endif %}"
+                            name="mobile" value="m"
+                    >
+                        Mobil
+                    </button>
 
-  <button type="submit"
-    class="inline-block rounded-md px-4 py-2 text-sm text-gray-500 hover:text-gray-700 {% if device == 'd' %} bg-white shadow-sm {% endif %} focus:relative" name="desktop" value="d"
-  >
-    Desktop
-  </button>
-</div>
+                    <button type="submit"
+                            class="inline-block rounded-md px-4 py-2 text-sm text-gray-500 hover:text-gray-700 {% if device == 'd' %} bg-white shadow-sm {% endif %} focus:relative"
+                            name="desktop" value="d"
+                    >
+                        Desktop
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="plotly-chart" class="container lg:max-w-screen-lg mx-auto px-0.5 md:px-4">
+
+        <div {% if chart1 == 'Data nejsou k dispozici' %}
+            class="flex items-center justify-center text-lg" {% else %}
+            class="pb-4" {% endif %}>
+            <div id="fid-chart" class="shadow-md">
+                {{ chart1|safe }}
+            </div>
+        </div>
+        <div {% if chart2 == 'Data nejsou k dispozici' %}
+            class="flex items-center justify-center text-lg" {% else %}
+            class="pb-4 shadow-sm" {% endif %}>
+            <div id="lcp-chart" class="shadow-md">
+                {{ chart2|safe }}
+            </div>
+        </div>
+        <div {% if chart3 == 'Data nejsou k dispozici' %}
+            class="flex items-center justify-center text-lg" {% else %}
+            class="pb-4 shadow-sm" {% endif %}>
+            <div id="cls-chart" class="shadow-md">
+                {{ chart3|safe }}
+            </div>
         </div>
     </div>
-        </form>
-
-<div id="plotly-chart" class="container lg:max-w-screen-lg mx-auto px-0.5 md:px-4">
-
-    <div {% if chart1 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% else %} class="pb-4" {% endif %}>
-    <div id="fid-chart" class="shadow-md">
-  {{ chart1|safe }}
-        </div>
-    </div>
-    <div {% if chart2 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% else %} class="pb-4 shadow-sm" {% endif %}>
-    <div id="lcp-chart" class="shadow-md">
-      {{ chart2|safe }}
-        </div>
-    </div>
-    <div {% if chart3 == 'Data nejsou k dispozici' %} class="flex items-center justify-center text-lg" {% else %} class="pb-4 shadow-sm" {% endif %}>
-    <div id="cls-chart" class="shadow-md">
-      {{ chart3|safe }}
-        </div>
-    </div>
-</div>
 
 
-<script>
-  const urlDeleteBtn = document.getElementById("urlDelete");
-  if (urlDeleteBtn != null) {
-      urlDeleteBtn.addEventListener('click', function() {
-          var url_id = this.getAttribute('obj-id');
-          fetch('/remove-value/?url_id=' + url_id)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                document.getElementById('removeFromProfile').classList.add('hidden');
-                document.getElementById('addToProfile').classList.remove('hidden');
-            })
-            .catch(error => console.error(error));
-          });
-      }
+    <script>
+        const urlDeleteBtn = document.getElementById("urlDelete");
+        if (urlDeleteBtn != null) {
+            urlDeleteBtn.addEventListener('click', function () {
+                var url_id = this.getAttribute('obj-id');
+                fetch('/remove-value/?url_id=' + url_id)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        document.getElementById('removeFromProfile').classList.add('hidden');
+                        document.getElementById('addToProfile').classList.remove('hidden');
+                    })
+                    .catch(error => console.error(error));
+            });
+        }
 
-  const urlAddBtn = document.getElementById("urlAdd");
-  if (urlAddBtn != null) {
-      urlAddBtn.addEventListener('click', function() {
-          var url_id = this.value;
-          fetch('/add-value/?url_id=' + url_id)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                document.getElementById('removeFromProfile').classList.remove('hidden');
-                document.getElementById('addToProfile').classList.add('hidden');
-            })
-            .catch(error => console.error(error));
-          });
-      }
-  const otherWebVitals = document.getElementById("other-web-vitals");
-  otherWebVitals.addEventListener('click', function() {
-      otherWebVitals.classList.toggle("active")
-      const otherWebVitalsBody = document.getElementById("other-web-vitals-body");
-      if(otherWebVitals.classList.contains("active")) {
-          otherWebVitalsBody.style.maxHeight = otherWebVitalsBody.scrollHeight + "px"
-      }
-      else {
-          otherWebVitalsBody.style.maxHeight = 0
-      }
-      });
-  const boxes = document.querySelectorAll('.stat-box');
-  boxes.forEach(box => {
-      const value = parseInt(box.innerHTML);
-      const low = parseInt(box.getAttribute('low-treshold'));
-      const high = parseInt(box.getAttribute('high-treshold'));
+        const urlAddBtn = document.getElementById("urlAdd");
+        if (urlAddBtn != null) {
+            urlAddBtn.addEventListener('click', function () {
+                var url_id = this.value;
+                fetch('/add-value/?url_id=' + url_id)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        document.getElementById('removeFromProfile').classList.remove('hidden');
+                        document.getElementById('addToProfile').classList.add('hidden');
+                    })
+                    .catch(error => console.error(error));
+            });
+        }
+        const otherWebVitals = document.getElementById("other-web-vitals");
+        otherWebVitals.addEventListener('click', function () {
+            otherWebVitals.classList.toggle("active")
+            const otherWebVitalsBody = document.getElementById("other-web-vitals-body");
+            if (otherWebVitals.classList.contains("active")) {
+                otherWebVitalsBody.style.maxHeight = otherWebVitalsBody.scrollHeight + "px"
+            } else {
+                otherWebVitalsBody.style.maxHeight = 0
+            }
+        });
+        const boxes = document.querySelectorAll('.stat-box');
+        boxes.forEach(box => {
+            const value = parseInt(box.innerHTML);
+            const low = parseInt(box.getAttribute('low-treshold'));
+            const high = parseInt(box.getAttribute('high-treshold'));
 
-      if (value < low) {
-        box.classList.add('rounded-lg', 'border-2', 'border-dotted', 'border-lime-500', 'pb-1', 'px-1');
-      } else if (value > high) {
-        box.classList.add('rounded-lg', 'border-2', 'border-dotted', 'border-red-600', 'pb-1', 'px-1');
-      } else {
-        box.classList.add('rounded-lg', 'border-2', 'border-dotted', 'border-amber-500', 'pb-1', 'px-1');
-      }
-    });
-</script>
+            if (value < low) {
+                box.classList.add('rounded-lg', 'border-2', 'border-dotted', 'border-lime-500', 'pb-1', 'px-1');
+            } else if (value > high) {
+                box.classList.add('rounded-lg', 'border-2', 'border-dotted', 'border-red-600', 'pb-1', 'px-1');
+            } else {
+                box.classList.add('rounded-lg', 'border-2', 'border-dotted', 'border-amber-500', 'pb-1', 'px-1');
+            }
+        });
+    </script>
 {% endblock %}

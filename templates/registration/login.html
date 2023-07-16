@@ -3,47 +3,54 @@
 {% block title %}Přihlášení{% endblock %}
 
 {% block content %}
-{% if form.errors %}
-<p>Kombinace jména a hesla nesedí se záznamy v databázi.</p>
-{% endif %}
+    {% if form.errors %}
+        <p>Kombinace jména a hesla nesedí se záznamy v databázi.</p>
+    {% endif %}
+    <div class="flex items-center justify-center h-screen">
+        <div class="flex flex-col max-w-md w-full p-6 rounded-md sm:p-10 bg-gray-50 text-gray-800">
+            <div class="mb-8 text-center">
+                <h1 class="my-3 text-4xl font-bold">Přihlášení</h1>
+                <p class="text-sm text-gray-600">Zadejte údaje pro přihlášení</p>
+            </div>
+            <form novalidate="" method="post" action="{% url 'login' %}"
+                  class="space-y-12 ng-untouched ng-pristine ng-valid">
+                {% load widget_tweaks %}
+                {% csrf_token %}
+                <div class="space-y-4">
+                    <div>
+                        <label for="email" class="block mb-2 text-sm">Uživatelské
+                            jméno</label>
+                        {% render_field form.username type="text"
+                        class="w-full px-3 py-2 border rounded-md border-gray-300
+                        bg-gray-50 text-gray-800" %}
 
-
-<div class="flex items-center justify-center h-screen">
-<div class="flex flex-col max-w-md w-full p-6 rounded-md sm:p-10 bg-gray-50 text-gray-800">
-	<div class="mb-8 text-center">
-		<h1 class="my-3 text-4xl font-bold">Přihlášení</h1>
-		<p class="text-sm text-gray-600">Zadejte údaje pro přihlášení</p>
-	</div>
-	<form novalidate="" method="post" action="{% url 'login' %}" class="space-y-12 ng-untouched ng-pristine ng-valid">
-        {% load widget_tweaks %}
-        {% csrf_token %}
-		<div class="space-y-4">
-			<div>
-				<label for="email" class="block mb-2 text-sm">Uživatelské jméno</label>
-                {% render_field form.username type="text"
-                            class="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50 text-gray-800" %}
-
-			</div>
-			<div>
-				<div class="flex justify-between mb-2">
-					<label for="password" class="text-sm">Heslo</label>
-					<a rel="noopener noreferrer" href="#" class="text-xs hover:underline text-gray-600">Zapomenuté heslo?</a>
-				</div>
-                {% render_field form.password type="password" placeholder="*****"
-                            class="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50 text-gray-800" %}
-
-
-			</div>
-		</div>
-		<div class="space-y-2">
-			<div>
-				<button type="submit" class="w-full px-8 py-3 font-semibold rounded-md bg-amber-600 text-gray-50">Přihlášení</button>
-			</div>
-			<p class="px-6 text-sm text-center text-gray-600">Nemáte účet?
-				<a rel="noopener noreferrer" href="{% url 'django_registration_register' %}" class="hover:underline text-amber-600">Registrace</a>.
-			</p>
-		</div>
-	</form>
-</div>
-</div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label for="password" class="text-sm">Heslo</label>
+                            <a rel="noopener noreferrer" href="#"
+                               class="text-xs hover:underline text-gray-600">Zapomenuté
+                                heslo?</a>
+                        </div>
+                        {% render_field form.password type="password" placeholder="*****"
+                        class="w-full px-3 py-2 border rounded-md border-gray-300
+                        bg-gray-50 text-gray-800" %}
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div>
+                        <button type="submit"
+                                class="w-full px-8 py-3 font-semibold rounded-md bg-amber-600 text-gray-50">
+                            Přihlášení
+                        </button>
+                    </div>
+                    <p class="px-6 text-sm text-center text-gray-600">Nemáte účet?
+                        <a rel="noopener noreferrer"
+                           href="{% url 'django_registration_register' %}"
+                           class="hover:underline text-amber-600">Registrace</a>.
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

@@ -19,7 +19,7 @@ class Article(models.Model):
         return markdownify(self.content)
 
     class Meta:
-        ordering = ['-created_on']
+        ordering = ["-created_on"]
 
     def __str__(self):
         return self.title
@@ -28,5 +28,3 @@ class Article(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         return super(Article, self).save(*args, **kwargs)
-
-

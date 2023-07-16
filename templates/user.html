@@ -4,14 +4,20 @@
 
 {% block content %}
     <div class="flex items-center mt-4 overflow-x-auto overflow-y-hidden sm:justify-center flex-nowrap text-gray-800">
-        <div id="tab_urls" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border border-b-0 rounded-t-lg border-gray-600 text-gray-600 cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+        <div id="tab_urls"
+             class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border border-b-0 rounded-t-lg border-gray-600 text-gray-600 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" class="w-4 h-4">
                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
             </svg>
             <span>Sledované URL</span>
         </div>
-        <div id="tab_annot" class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b border-gray-600 text-gray-900 cursor-pointer">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+        <div id="tab_annot"
+             class="flex items-center flex-shrink-0 px-5 py-3 space-x-2 border-b border-gray-600 text-gray-900 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                 stroke-linejoin="round" class="w-4 h-4">
                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
             </svg>
@@ -22,28 +28,38 @@
     <div id="urls" class="flex flex-col items-center justify-center mt-6">
         <table class="table-auto border-collapse bg-white">
             <thead class="border-b">
-                <tr>
-                    <th class="px-3 py-2">Sledované URL</th>
-                    <th class="px-3 py-2">Alert</th>
-                    <th class="px-3 py-2">LCP</th>
-                    <th class="px-3 py-2">FID</th>
-                    <th class="px-3 py-2">CLS</th>
-                </tr>
+            <tr>
+                <th class="px-3 py-2">Sledované URL</th>
+                <th class="px-3 py-2">Alert</th>
+                <th class="px-3 py-2">LCP</th>
+                <th class="px-3 py-2">FID</th>
+                <th class="px-3 py-2">CLS</th>
+            </tr>
             </thead>
             <tbody>
-                {% for profile_url in profile.profileurl_set.all %}
-                    <tr class="border-b">
-                        <td class="px-3 py-2"><a href={% url "dashboard" profile_url.url.id %}>{{ profile_url.url.url }}</a>
-                            <td class="px-3 py-2"><div class="form-check">
-      <select class="py-1 px-2 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500" url-id={{ profile_url.id }} id="email_alert">
-        <option {% if not profile_url.email_alert %}selected{% endif %} value="off">OFF</option>
-        <option {% if profile_url.email_alert and profile_url.sensitivity == 1 %}selected{% endif %} value="1">Level 1</option>
-        <option {% if profile_url.email_alert and profile_url.sensitivity == 2 %}selected{% endif %} value="2">Level 2</option>
-      </select>
-    </div></td>
-                        {% with latest_crux=profile_url.url.cruxhistory_set.latest %}
-                            {% with lcpm=latest_crux.lcpm %}
-                                <td class="px-3 py-2 font-semibold
+            {% for profile_url in profile.profileurl_set.all %}
+                <tr class="border-b">
+                    <td class="px-3 py-2"><a
+                            href={% url "dashboard" profile_url.url.id %}>{{ profile_url.url.url }}</a>
+                    <td class="px-3 py-2">
+                        <div class="form-check">
+                            <select class="py-1 px-2 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500"
+                                    url-id={{ profile_url.id }} id="email_alert">
+                                <option {% if not profile_url.email_alert %}selected{% endif %}
+                                        value="off">OFF
+                                </option>
+                                <option {% if profile_url.email_alert and profile_url.sensitivity == 1 %}selected{% endif %}
+                                        value="1">Level 1
+                                </option>
+                                <option {% if profile_url.email_alert and profile_url.sensitivity == 2 %}selected{% endif %}
+                                        value="2">Level 2
+                                </option>
+                            </select>
+                        </div>
+                    </td>
+                    {% with latest_crux=profile_url.url.cruxhistory_set.latest %}
+                        {% with lcpm=latest_crux.lcpm %}
+                            <td class="px-3 py-2 font-semibold
                                 {% if lcpm > 4000 %}
                                 text-red-600
                                 {% elif lcpm > 2500 %}
@@ -51,9 +67,9 @@
                                 {% else %}
                                 text-lime-600
                                 {% endif %}">{{ lcpm }}</td>
-                            {% endwith %}
-                            {% with fidm=latest_crux.fidm %}
-                                <td class="px-3 py-2 font-semibold
+                        {% endwith %}
+                        {% with fidm=latest_crux.fidm %}
+                            <td class="px-3 py-2 font-semibold
                                 {% if fidm > 300 %}
                                 text-red-600
                                 {% elif fidm > 100 %}
@@ -61,9 +77,9 @@
                                 {% else %}
                                 text-lime-600
                                 {% endif %}">{{ fidm }}</td>
-                            {% endwith %}
-                            {% with clsm=latest_crux.clsm %}
-                                <td class="px-3 py-2 font-semibold
+                        {% endwith %}
+                        {% with clsm=latest_crux.clsm %}
+                            <td class="px-3 py-2 font-semibold
                                 {% if clsm > 0.25 %}
                                 text-red-600
                                 {% elif clsm > 0.10 %}
@@ -71,53 +87,61 @@
                                 {% else %}
                                 text-lime-600
                                 {% endif %}">{{ clsm }}</td>
-                            {% endwith %}
                         {% endwith %}
+                    {% endwith %}
 
 
-                    </tr>
-                {% endfor %}
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
-            <div
-          class="relative flex items-start justify-between rounded-xl border border-gray-100 max-w-xl bg-white p-4 my-4 shadow-xl sm:p-6 lg:p-8"
+        <div
+                class="relative flex items-start justify-between rounded-xl border border-gray-100 max-w-xl bg-white p-4 my-4 shadow-xl sm:p-6 lg:p-8"
         >
-          <div class="pt-0.5 text-gray-500">
+            <div class="pt-0.5 text-gray-500">
 
-            <h3 class="mt-0.5 text-lg font-bold text-gray-900 sm:text-xl">
-              Nastavení alertů
-            </h3>
+                <h3 class="mt-0.5 text-lg font-bold text-gray-900 sm:text-xl">
+                    Nastavení alertů
+                </h3>
 
-            <p class="mt-2 text-sm sm:block">
-                <b>OFF</b> - vypnuto<br>
-                <b>Level 1</b> - report každého pohybu směrem nahoru nad průměr za posledních 5 dní<br>
-                <b>Level 2</b> - jako level 1, ale ignoruje pohyby, které jsou dostatečně nízko v zeleném pásmů metrik
+                <p class="mt-2 text-sm sm:block">
+                    <b>OFF</b> - vypnuto<br>
+                    <b>Level 1</b> - report každého pohybu směrem nahoru nad průměr za
+                    posledních 5 dní<br>
+                    <b>Level 2</b> - jako level 1, ale ignoruje pohyby, které jsou
+                    dostatečně nízko v zeleném pásmů metrik
 
-            </p>
-          </div>
+                </p>
+            </div>
         </div>
     </div>
     <div id="annotations" class="hidden flex flex-col items-center justify-center mt-6">
         <table id="annt-table" class="table-auto border-collapse bg-white my-2">
             <thead class="border-b">
-                <tr>
-                    <th class="px-3 py-2">URL</th>
-                    <th class="px-3 py-2">Zkratka poznámky</th>
-                    <th class="px-3 py-2">Text poznámky</th>
-                </tr>
+            <tr>
+                <th class="px-3 py-2">URL</th>
+                <th class="px-3 py-2">Zkratka poznámky</th>
+                <th class="px-3 py-2">Text poznámky</th>
+            </tr>
             </thead>
             <tbody>
             {% for profile_url in profile.profileurl_set.all %}
                 {% for annotation in profile_url.annotations_set.all %}
                     <tr class="border-b">
-                    <td class="px-3 py-2">{{ profile_url.url.url }}</td>
-                    <td class="px-3 py-2">{{ annotation.annotation_title }}</td>
-                    <td class="px-3 py-2">{{ annotation.annotation_text }}</td>
-                    <td id={{ annotation.id }} class="minus"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler cursor-pointer icon-tabler-square-minus" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                          <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
-                          <path d="M9 12l6 0" />
-                        </svg></td>
+                        <td class="px-3 py-2">{{ profile_url.url.url }}</td>
+                        <td class="px-3 py-2">{{ annotation.annotation_title }}</td>
+                        <td class="px-3 py-2">{{ annotation.annotation_text }}</td>
+                        <td id={{ annotation.id }} class="minus">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="icon icon-tabler cursor-pointer icon-tabler-square-minus"
+                                 width="28" height="28" viewBox="0 0 24 24"
+                                 stroke-width="1.5" stroke="#ff2825" fill="none"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"/>
+                                <path d="M9 12l6 0"/>
+                            </svg>
+                        </td>
                     </tr>
                 {% endfor %}
             {% endfor %}
@@ -125,121 +149,138 @@
         </table>
         <div class="flex flex-col max-w-md w-full my-2 p-6 rounded-md sm:p-10 bg-gray-50 text-gray-800">
             <h1 class="mb-3 text-xl font-bold">Vložení nové poznámky</h1>
-            <div id="annt-alert" class="hidden flex p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
-              <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
-              <div>
-                <span class="font-medium">Poznámka úspěšně uložena</span>
-              </div>
+            <div id="annt-alert"
+                 class="hidden flex p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                 role="alert">
+                <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3"
+                     fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                          clip-rule="evenodd"></path>
+                </svg>
+                <div>
+                    <span class="font-medium">Poznámka úspěšně uložena</span>
+                </div>
             </div>
             <form id="annotation-form" method="POST" action="{% url 'profilepage' %}">
-        {% load widget_tweaks %}
-        {% csrf_token %}
+                {% load widget_tweaks %}
+                {% csrf_token %}
                 <label for="profileurl" class="block my-2 text-sm">Pro url:</label>
-        {% render_field annotation_form.profileurl type="text" id="profileurl"
-            class="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50 text-gray-800" %}
-            <label for="annotation_title" class="block my-2 text-sm">Krátký název poznámky (max 10 znaků)</label>
-        {% render_field annotation_form.annotation_title type="text" id="annotation_title"
-            class="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50 text-gray-800" %}
-            <label for="annotation_text" class="block my-2 text-sm">Popis poznámky (max 255 znaků)</label>
-        {% render_field annotation_form.annotation_text type="text" id="annotation_text"
-            class="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50 text-gray-800" %}
+                {% render_field annotation_form.profileurl type="text" id="profileurl"
+                class="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50
+                text-gray-800" %}
+                <label for="annotation_title" class="block my-2 text-sm">Krátký název
+                    poznámky (max 10 znaků)</label>
+                {% render_field annotation_form.annotation_title type="text" id="annotation_title"
+                class="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50
+                text-gray-800" %}
+                <label for="annotation_text" class="block my-2 text-sm">Popis poznámky
+                    (max 255 znaků)</label>
+                {% render_field annotation_form.annotation_text type="text" id="annotation_text"
+                class="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50
+                text-gray-800" %}
                 <label for="date" class="block my-2 text-sm">Datum</label>
-        {% render_field annotation_form.date type="date" id="date"
-            class="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50 text-gray-800" %}
+                {% render_field annotation_form.date type="date" id="date"
+                class="w-full px-3 py-2 border rounded-md border-gray-300 bg-gray-50
+                text-gray-800" %}
                 <div>
-				<button type="submit" class="w-full px-8 mt-4 py-3 font-semibold rounded-md bg-amber-600 text-gray-50">Přidat</button>
-			</div>
+                    <button type="submit"
+                            class="w-full px-8 mt-4 py-3 font-semibold rounded-md bg-amber-600 text-gray-50">
+                        Přidat
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 
     <script>
-    const selectors = document.querySelectorAll('select');
-    selectors.forEach(function(select) {
-        select.addEventListener("change", function() {
-            const selectedValue = select.value;
-            const url_id = select.getAttribute('url-id');
-            fetch('/change-value/?url_id=' + url_id + '&value=' + selectedValue)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(error => console.error(error));
-          });
+        const selectors = document.querySelectorAll('select');
+        selectors.forEach(function (select) {
+            select.addEventListener("change", function () {
+                const selectedValue = select.value;
+                const url_id = select.getAttribute('url-id');
+                fetch('/change-value/?url_id=' + url_id + '&value=' + selectedValue)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(error => console.error(error));
+            });
         });
-    const tab_urls = document.getElementById("tab_urls");
-    const tab_annot = document.getElementById("tab_annot");
-    const annot = document.getElementById("annotations");
-    const urls = document.getElementById("urls");
-    tab_annot.addEventListener("click", function() {
-        annot.classList.remove("hidden");
-        urls.classList.add("hidden");
-        tab_annot.classList.add("border", "border-b-0", "rounded-t-lg");
-        tab_annot.classList.remove("border-b");
-        tab_urls.classList.remove("border", "border-b-0", "rounded-t-lg");
-        tab_urls.classList.add("border-b");
+        const tab_urls = document.getElementById("tab_urls");
+        const tab_annot = document.getElementById("tab_annot");
+        const annot = document.getElementById("annotations");
+        const urls = document.getElementById("urls");
+        tab_annot.addEventListener("click", function () {
+            annot.classList.remove("hidden");
+            urls.classList.add("hidden");
+            tab_annot.classList.add("border", "border-b-0", "rounded-t-lg");
+            tab_annot.classList.remove("border-b");
+            tab_urls.classList.remove("border", "border-b-0", "rounded-t-lg");
+            tab_urls.classList.add("border-b");
 
 
-    });
-    tab_urls.addEventListener("click", function() {
-        annot.classList.add("hidden");
-        urls.classList.remove("hidden");
-        tab_annot.classList.remove("border", "border-b-0", "rounded-t-lg");
-        tab_annot.classList.add("border-b");
-        tab_urls.classList.add("border", "border-b-0", "rounded-t-lg");
-        tab_urls.classList.remove("border-b");
+        });
+        tab_urls.addEventListener("click", function () {
+            annot.classList.add("hidden");
+            urls.classList.remove("hidden");
+            tab_annot.classList.remove("border", "border-b-0", "rounded-t-lg");
+            tab_annot.classList.add("border-b");
+            tab_urls.classList.add("border", "border-b-0", "rounded-t-lg");
+            tab_urls.classList.remove("border-b");
 
 
-    });
-    const form = document.getElementById('annotation-form');
+        });
+        const form = document.getElementById('annotation-form');
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
 
-        fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-        })
-        .then(function(response) {
-          if (!response.ok) {
-            throw new Error('Chyba při odesílání formuláře.');
-          }
-          return response.text();
-        })
-        .then(function(data) {
-          form.reset();
-          const alert = document.getElementById('annt-alert');
-          alert.classList.remove('hidden');
-          console.log(data);
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+            })
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error('Chyba při odesílání formuláře.');
+                    }
+                    return response.text();
+                })
+                .then(function (data) {
+                    form.reset();
+                    const alert = document.getElementById('annt-alert');
+                    alert.classList.remove('hidden');
+                    console.log(data);
 
-          const dataObject = JSON.parse(data);
+                    const dataObject = JSON.parse(data);
 
-          const table = document.getElementById('annt-table');
-          const newRow = table.insertRow();
-            newRow.innerHTML = `
+                    const table = document.getElementById('annt-table');
+                    const newRow = table.insertRow();
+                    newRow.innerHTML = `
             <td class="px-3 py-2">${dataObject.url}</td>
             <td class="px-3 py-2">${dataObject.title}</td>
             <td class="px-3 py-2">${dataObject.text}</td>
             `;
 
-        })
-        .catch(function(error) {
-          // Zpracování chybové odpovědi
-          console.error(error);
+                })
+                .catch(function (error) {
+                    // Zpracování chybové odpovědi
+                    console.error(error);
+                });
         });
-    });
-    const minusButtons = document.querySelectorAll('.minus');
+        const minusButtons = document.querySelectorAll('.minus');
 
-    minusButtons.forEach(button => {
-      button.addEventListener('click', async function (event) {
-          const row = event.target.closest('tr');
-          let response = await fetch('/delete-annot/?annot_id=' + button.id);
-          if (response.ok) {
-            row.remove();
-          }
-          console.log('clicked on minus button');
+        minusButtons.forEach(button => {
+            button.addEventListener('click', async function (event) {
+                const row = event.target.closest('tr');
+                let response = await fetch('/delete-annot/?annot_id=' + button.id);
+                if (response.ok) {
+                    row.remove();
+                }
+                console.log('clicked on minus button');
 
-      });
-    });
+            });
+        });
     </script>
 {% endblock %}

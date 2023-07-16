@@ -6,6 +6,12 @@ from django.http import JsonResponse
 
 
 def dashboard(request, url_id):
+    """View function to create a dashboard containing charts and metrics for a given url
+
+    Args:
+        request: The HTTP request object.
+        url_id: The ID of the URL from Urls model.
+    """
     url_object = Urls.objects.get(id=url_id)
     web_name = url_object.url
     data = CruxHistory.objects.filter(url=url_id)
@@ -42,7 +48,6 @@ def dashboard(request, url_id):
                 "zoomIn",
                 "zoomOut",
             ],
-
         }
     )
     chart1 = create_plot(data, "fid", device, annotations)
@@ -88,4 +93,3 @@ def add_profile_url(request):
     url_object = Urls.objects.get(id=url_id)
     request.user.profile.urls.add(url_object)
     return JsonResponse({"success": True})
-

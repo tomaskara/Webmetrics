@@ -5,11 +5,10 @@ from dashboard.views import dashboard, remove_profile_url, add_profile_url
 
 
 urlpatterns = [
-    path('dashboard/<int:url_id>/', dashboard, name='dashboard'),
-    path('remove-value/', remove_profile_url, name='remove_value'),
-    path('add-value/', add_profile_url, name='add_value'),
-    path('function/', add_profile_url, name='add_value'),
-
+    path("dashboard/<int:url_id>/", dashboard, name="dashboard"),
+    path("remove-value/", remove_profile_url, name="remove_value"),
+    path("add-value/", add_profile_url, name="add_value"),
+    path("function/", add_profile_url, name="add_value"),
 ]
 
 if settings.DEBUG:

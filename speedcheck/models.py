@@ -4,7 +4,6 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 
 
-# Create your models here.
 class Urls(models.Model):
     url = models.CharField(max_length=255)
 
@@ -30,11 +29,11 @@ class CruxHistory(models.Model):
 
     class Meta:
         unique_together = [("url", "date")]
-        get_latest_by = 'date'
+        get_latest_by = "date"
 
     def __str__(self):
         return f"{self.url},{self.date},{self.clsm},{self.clsd}"
-    
+
 
 class CruxWeeklyHistory(models.Model):
     url = models.ForeignKey(Urls, on_delete=models.CASCADE)
@@ -51,11 +50,10 @@ class CruxWeeklyHistory(models.Model):
     ttfbd = models.FloatField(null=True, default=None)
     fcpm = models.FloatField(null=True, default=None)
     fcpd = models.FloatField(null=True, default=None)
-    
 
     class Meta:
         unique_together = [("url", "lastdate")]
-        get_latest_by = 'lastdate'
+        get_latest_by = "lastdate"
 
     def __str__(self):
         return f"{self.url},{self.lastdate},{self.clsm},{self.clsd}"
@@ -90,4 +88,3 @@ class Annotations(models.Model):
     date = models.DateField(auto_now=False, auto_now_add=False)
     annotation_title = models.CharField(max_length=10)
     annotation_text = models.CharField(max_length=255)
-
