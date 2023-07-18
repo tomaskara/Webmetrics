@@ -4,12 +4,14 @@
 {% block title %}Články{% endblock %}
 
 {% block content %}
+    <div class="text-2xl font-bold text-gray-900 md:text-3xl max-w-4xl mx-auto px-4 md:px-8 py-4 mt-4 ">Články:</div>
     <div>
     {% for article in articles %}
-    <div class="max-w-4xl mx-auto px-4 md:px-8 bg-white shadow py-4 mt-4">
-      <h2><a href="{{ article.slug }}" class="block font-body text-lg font-semibold text-primary transition-colors hover:text-green dark:text-white dark:hover:text-secondary">{{ article.title }}</a></h2>
-      <p>{{ article.perex }}</p>
-      <p>Uveřejněno {{ article.last_modified|date:"j. F Y"|localize}}</p>
+    <div class="max-w-4xl mx-auto px-4 md:px-8 bg-white shadow py-4 mt-4 ">
+      <h2><a href="{{ article.slug }}" class="block underline font-body text-lg font-semibold hover:text-gray-500">{{ article.title }}</a></h2>
+        <p class="italic">Uveřejněno {{ article.last_modified|date:"j. F Y"|localize}}</p>
+      <p>{{ article.perex }} <a href="{{ article.slug }}" class="block underline font-body text-lg font-semibold hover:text-gray-500">Číst více</a></p>
+
     </div>
         </div>
   {% endfor %}
