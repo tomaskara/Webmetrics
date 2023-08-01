@@ -1,11 +1,12 @@
-from django.shortcuts import render, HttpResponseRedirect
-from django.urls import reverse
-from django.http import JsonResponse
 from django.contrib import messages
-from .forms import UrlForm, UserForm, ProfileForm, AnnotationsForm
-from .models import Urls, Profile, ProfileUrl, Annotations
-from .functions import get_api_data
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import HttpResponseRedirect, render
+from django.urls import reverse
+
+from .forms import AnnotationsForm, ProfileForm, UrlForm, UserForm
+from .functions import get_api_data
+from .models import Annotations, Profile, ProfileUrl, Urls
 
 
 def home(request):

@@ -1,9 +1,9 @@
-from pathlib import Path
 import os
-from dotenv import load_dotenv
 import re
-from django.template import base
+from pathlib import Path
 
+from django.template import base
+from dotenv import load_dotenv
 
 base.tag_re = re.compile(base.tag_re.pattern, re.DOTALL)
 load_dotenv()

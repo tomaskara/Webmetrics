@@ -1,8 +1,8 @@
-from django.urls import path, include
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
-from dashboard.views import dashboard, remove_profile_url, add_profile_url
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.urls import include, path
 
+from dashboard.views import add_profile_url, dashboard, remove_profile_url
 
 urlpatterns = [
     path("dashboard/<int:url_id>/", dashboard, name="dashboard"),

@@ -1,8 +1,11 @@
-from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
-from speedcheck.models import Urls, CruxHistory, Profile, ProfileUrl, Annotations
-from .functions import create_plot
 from django.http import JsonResponse
+from django.shortcuts import render
+
+from speedcheck.models import (Annotations, CruxHistory, Profile, ProfileUrl,
+                               Urls)
+
+from .functions import create_plot
 
 
 def dashboard(request, url_id):
@@ -32,10 +35,10 @@ def dashboard(request, url_id):
             pass
     if request.POST.get("mobile"):
         device = request.POST.get("mobile")
-
     elif request.POST.get("desktop"):
         device = request.POST.get("desktop")
     else:
+        # if there is no input from the user the default value is "m" (mobile)
         device = "m"
 
     config = dict(

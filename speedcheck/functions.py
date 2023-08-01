@@ -1,16 +1,18 @@
+import datetime
+import hashlib
+import os
 import smtplib
 import ssl
-import os
-import hashlib
-import requests
-import datetime
-from statistics import mean
-from dotenv import load_dotenv
-from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from statistics import mean
+
+import requests
 from django.conf import settings
-from speedcheck.models import Urls, CruxHistory, ProfileUrl, CruxWeeklyHistory
+from dotenv import load_dotenv
+
 from dashboard.functions import create_plot
+from speedcheck.models import CruxHistory, CruxWeeklyHistory, ProfileUrl, Urls
 
 BASE_DIR = settings.BASE_DIR
 load_dotenv(os.path.join(BASE_DIR, ".env"))

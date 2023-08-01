@@ -1,7 +1,8 @@
-from django.forms import ModelForm
 from django.contrib.auth.models import User
-from speedcheck.models import Urls, Profile, Annotations, ProfileUrl
+from django.forms import ModelForm
 from django.forms.widgets import DateInput, Textarea
+
+from speedcheck.models import Annotations, Profile, ProfileUrl, Urls
 
 
 class UrlForm(ModelForm):
