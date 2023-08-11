@@ -105,3 +105,31 @@ def create_plot(query_set, metric, device, annotations=None):
             return "Data nejsou k dispozici"
     except IndexError:
         return "Data nejsou k dispozici"
+
+
+def create_charts(query_set,device,annotations):
+    config = dict(
+        {
+            "modeBarButtonsToRemove": [
+                "autoScale",
+                "zoom",
+                "pan",
+                "select",
+                "zoomIn",
+                "zoomOut",
+            ],
+        }
+    )
+    chart1 = create_plot(query_set, "fid", device, annotations)
+    if type(chart1) != str:
+        chart1 = chart1.to_html(config=config, include_plotlyjs=False)
+
+    chart2 = create_plot(query_set, "lcp", device, annotations)
+    if type(chart2) != str:
+        chart2 = chart2.to_html(config=config, include_plotlyjs=False)
+
+    chart3 = create_plot(query_set, "cls", device, annotations)
+    if type(chart3) != str:
+        chart3 = chart3.to_html(config=config, include_plotlyjs=False)
+
+    return chart1, chart2, chart3

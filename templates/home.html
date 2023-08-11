@@ -20,9 +20,11 @@
                 <form action="#" class="sm:flex sm:gap-4" method="POST">
                     <div class="sm:flex-1">
                         {% load widget_tweaks %}
-                        <label for="email" class="sr-only">Email</label>
+                        <label for="url" class="sr-only">Url</label>
                         {% csrf_token %}
-                        {% render_field form.url type="url"
+                        {% render_field form.url type="url" id='urlInput'
+                        onblur="addHttpsIfNeeded()"
+                        onkeydown="handleKeyDown(event)"
                         placeholder="URL adresa"
                         class="w-full rounded-md border-gray-200 bg-white p-3 shadow-sm
                         transition
@@ -56,5 +58,23 @@
             </div>
         </div>
     </section>
+    <script>function addHttpsIfNeeded() {
+    const urlInput = document.getElementById('urlInput');
+    const urlValue = urlInput.value.trim();
+
+    if (urlValue !== '') {
+        if (!urlValue.match(/^https?:\/\//)) {
+            urlInput.value = 'https://' + urlValue;
+        }
+    }
+  }
+    function handleKeyDown(event) {
+    if (event.keyCode === 13) {
+      addHttpsIfNeeded();
+    }
+  }
+
+    </script>
+
 
 {% endblock %}

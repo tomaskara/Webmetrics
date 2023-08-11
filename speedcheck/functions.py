@@ -121,9 +121,9 @@ def get_api_history_data(url):
             for index, date in enumerate(dates):
                 # check if combination url and date exists in db, if not: create new record with values for mobile
                 if not CruxWeeklyHistory.objects.filter(
-                    url__url=url, lastdate=date
+                    url__url=url, date=date
                 ).exists():
-                    new_values = {"url": Urls.objects.get(url=url), "lastdate": date}
+                    new_values = {"url": Urls.objects.get(url=url), "date": date}
                     for name, value in json_response["record"]["metrics"].items():
                         new_values[f"{shortcuts[name]}m"] = float(
                             value["percentilesTimeseries"]["p75s"][index]
@@ -134,7 +134,7 @@ def get_api_history_data(url):
             for index, date in enumerate(dates):
                 # check if combination url and date exists with empty desktop values, if yes: update desktop values
                 if CruxWeeklyHistory.objects.filter(
-                    url__url=url, lastdate=date, clsd__isnull=True
+                    url__url=url, date=date, clsd__isnull=True
                 ).exists():
                     new_values = {}
                     for name, value in json_response["record"]["metrics"].items():
@@ -142,7 +142,7 @@ def get_api_history_data(url):
                             value["percentilesTimeseries"]["p75s"][index]
                         )
                     object_to_update = CruxWeeklyHistory.objects.filter(
-                        url__url=url, lastdate=date
+                        url__url=url, date=date
                     )
                     object_to_update.update(**new_values)
     return

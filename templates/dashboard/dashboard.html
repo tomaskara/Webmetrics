@@ -187,7 +187,22 @@
     <form method="post">
         {% csrf_token %}
         <div class="container lg:max-w-screen-lg mx-auto px-4 py-2">
-            <div class="flex justify-end">
+            <div class="flex gap-4 justify-end">
+                 <div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1">
+                    <button type="submit"
+                            class="inline-block rounded-md px-4 py-2 text-sm text-gray-500 hover:text-gray-700 focus:relative {% if source_of_data == 'd' %} bg-white shadow-sm {% endif %}"
+                            name="daily" value="d"
+                    >
+                        Denní
+                    </button>
+
+                    <button type="submit"
+                            class="inline-block rounded-md px-4 py-2 text-sm text-gray-500 hover:text-gray-700 {% if source_of_data == 'w' %} bg-white shadow-sm {% endif %} focus:relative"
+                            name="weekly" value="w"
+                    >
+                        Tydenní historie
+                    </button>
+                </div>
                 <div class="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1">
                     <button type="submit"
                             class="inline-block rounded-md px-4 py-2 text-sm text-gray-500 hover:text-gray-700 focus:relative {% if device == 'm' %} bg-white shadow-sm {% endif %}"

@@ -2,10 +2,17 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from speedcheck.models import (Annotations, CruxHistory, Profile, ProfileUrl,
-                               Urls)
+from speedcheck.models import (
+    Annotations,
+    CruxHistory,
+    Profile,
+    ProfileUrl,
+    Urls,
+    CruxWeeklyHistory,
+)
 
-from .functions import create_plot
+from .functions import create_charts
+from speedcheck.functions import get_api_history_data
 
 
 def dashboard(request, url_id):
@@ -17,7 +24,6 @@ def dashboard(request, url_id):
     """
     url_object = Urls.objects.get(id=url_id)
     web_name = url_object.url
-    data = CruxHistory.objects.filter(url=url_id)
     url_added = None
     profile_url_id = None
     annotations = None
@@ -33,37 +39,33 @@ def dashboard(request, url_id):
                 profile_url_id = current_profile_url.id
         except ObjectDoesNotExist:
             pass
-    if request.POST.get("mobile"):
-        device = request.POST.get("mobile")
-    elif request.POST.get("desktop"):
-        device = request.POST.get("desktop")
+    if request.method == "POST":
+        if request.POST.get("mobile"):
+            request.session["device"] = "m"
+        elif request.POST.get("desktop"):
+            request.session["device"] = "d"
+        elif request.POST.get("daily"):
+            request.session["source_of_data"] = "d"
+        elif request.POST.get("weekly"):
+            request.session["source_of_data"] = "w"
     else:
-        # if there is no input from the user the default value is "m" (mobile)
-        device = "m"
+        # If the state does not exist in the session, use the default value
+        if "device" not in request.session:
+            request.session["device"] = "m"
+        if "source_of_data" not in request.session:
+            request.session["source_of_data"] = "d"
 
-    config = dict(
-        {
-            "modeBarButtonsToRemove": [
-                "autoScale",
-                "zoom",
-                "pan",
-                "select",
-                "zoomIn",
-                "zoomOut",
-            ],
-        }
-    )
-    chart1 = create_plot(data, "fid", device, annotations)
-    if type(chart1) != str:
-        chart1 = chart1.to_html(config=config, include_plotlyjs=False)
+    device = request.session["device"]
+    source_of_data = request.session["source_of_data"]
 
-    chart2 = create_plot(data, "lcp", device, annotations)
-    if type(chart2) != str:
-        chart2 = chart2.to_html(config=config, include_plotlyjs=False)
+    if source_of_data == "d":
+        data = CruxHistory.objects.filter(url=url_id)
+    elif source_of_data == "w":
+        get_api_history_data(web_name)
+        data = CruxWeeklyHistory.objects.filter(url=url_id)
 
-    chart3 = create_plot(data, "cls", device, annotations)
-    if type(chart3) != str:
-        chart3 = chart3.to_html(config=config, include_plotlyjs=False)
+    chart1, chart2, chart3 = create_charts(data, device, annotations)
+
     return render(
         request,
         "dashboard/dashboard.html",
@@ -73,6 +75,7 @@ def dashboard(request, url_id):
             "chart3": chart3,
             "web_name": web_name,
             "device": device,
+            "source_of_data": source_of_data,
             "url_obj": url_object,
             "url_added": url_added,
             "profile_url_id": profile_url_id,
