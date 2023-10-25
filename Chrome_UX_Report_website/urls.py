@@ -2,6 +2,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
+from django.contrib.auth.views import (
+    PasswordResetView,
+    PasswordResetDoneView,
+    PasswordResetConfirmView,
+    PasswordResetCompleteView
+)
 from speedcheck import views
 
 
@@ -16,6 +22,11 @@ urlpatterns = [
     path("change-value/", views.change_value, name="change_value"),
     path("delete-annot/", views.delete_annot, name="delete_annot"),
     path("markdownx/", include("markdownx.urls")),
+    path("user/", views.userpage, name="userpage"),
+    path('password-reset/', PasswordResetView.as_view(), name='password-reset'),
+    path('password-reset/done/', PasswordResetDoneView.as_view(),name='password_reset_done'),
+    path('password-reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('password-reset-complete/', PasswordResetCompleteView.as_view(),name='password_reset_complete'),
 ]
 
 if settings.DEBUG:

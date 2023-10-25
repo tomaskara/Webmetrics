@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import HttpResponseRedirect, render
+from django.shortcuts import HttpResponseRedirect, render, redirect
 from django.urls import reverse
 
 from .forms import AnnotationsForm, ProfileForm, UrlForm, UserForm
@@ -73,6 +73,18 @@ def profilepage(request):
         },
     )
 
+@login_required
+def userpage(request):
+    if request.method == "POST":
+        user_form = UserForm(request.POST, instance=request.user)
+        if user_form.is_valid():
+            user_form.save()
+            messages.success(request, ('Vaše údaje byly uspěšně upraveny!'))
+        else:
+            messages.error(request, ('Úpravu nelze provést.'))
+        return redirect("userpage")
+    user_form = UserForm(instance=request.user)
+    return render(request, "updateuser.html", {"user": request.user, "user_form": user_form})
 
 def change_value(request):
     """Handle JS request from templates to change email alert settings."""

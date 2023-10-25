@@ -74,10 +74,14 @@
                                          aria-labelledby="headlessui-menu-button-1"
                                          id="headlessui-menu-items-117" role="menu">
                                         <div class="py-1">
+                                            <a href="{% url 'userpage' %}"
+                                               tabindex="0"
+                                               class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"
+                                               role="menuitem">Nastavení uživatele</a>
                                             <a href="{% url 'profilepage' %}"
                                                tabindex="0"
                                                class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"
-                                               role="menuitem">Zobrazení profilu</a>
+                                               role="menuitem">Nastavení profilu</a>
                                             <a href="{% url 'logout' %}" tabindex="3"
                                                class="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left"
                                                role="menuitem">Odhlásit</a></div>
