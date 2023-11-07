@@ -136,4 +136,8 @@ def create_charts(query_set, device, annotations):
     if type(chart3) != str:
         chart3 = chart3.to_html(config=config, include_plotlyjs=False)
 
-    return chart1, chart2, chart3
+    chart4 = create_plot(query_set, "inp", device, annotations)
+    if type(chart4) != str:
+        chart4 = chart4.to_html(config=config, include_plotlyjs=False)
+
+    return chart1, chart2, chart3, chart4
