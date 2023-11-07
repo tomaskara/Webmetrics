@@ -245,6 +245,13 @@
                 {{ chart3|safe }}
             </div>
         </div>
+        <div {% if chart4 == 'Data nejsou k dispozici' %}
+            class="flex items-center justify-center text-lg" {% else %}
+            class="pb-4 shadow-sm" {% endif %}>
+            <div id="cls-chart" class="shadow-md">
+                {{ chart4|safe }}
+            </div>
+        </div>
     </div>
 
 

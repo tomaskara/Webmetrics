@@ -64,7 +64,7 @@ def dashboard(request, url_id):
         get_api_history_data(web_name)
         data = CruxWeeklyHistory.objects.filter(url=url_id)
 
-    chart1, chart2, chart3 = create_charts(data, device, annotations)
+    chart1, chart2, chart3, chart4 = create_charts(data, device, annotations)
 
     return render(
         request,
@@ -73,6 +73,7 @@ def dashboard(request, url_id):
             "chart1": chart1,
             "chart2": chart2,
             "chart3": chart3,
+            "chart4": chart4,
             "web_name": web_name,
             "device": device,
             "source_of_data": source_of_data,

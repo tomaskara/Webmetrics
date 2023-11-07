@@ -27,6 +27,10 @@ def create_plot(query_set, metric, device, annotations=None):
                 limits = [100, 300]
                 y_min = min(clean_metrics) - 10
                 y_max = max(clean_metrics) + 10
+            elif metric == "inp":
+                limits = [200, 500]
+                y_min = min(clean_metrics) - 50
+                y_max = max(clean_metrics) + 50
             else:
                 limits = [0.1, 0.25]
                 y_min = min(clean_metrics) - 0.1
@@ -64,7 +68,7 @@ def create_plot(query_set, metric, device, annotations=None):
                 x0=min(dates),
                 x1=max(dates),
                 y0=limits[1],
-                y1=limits[1] + 100,
+                y1=limits[1] + 1000,
                 yref="y",
                 fillcolor="red",
                 layer="below",
@@ -107,7 +111,7 @@ def create_plot(query_set, metric, device, annotations=None):
         return "Data nejsou k dispozici"
 
 
-def create_charts(query_set,device,annotations):
+def create_charts(query_set, device, annotations):
     config = dict(
         {
             "modeBarButtonsToRemove": [
