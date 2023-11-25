@@ -3,7 +3,7 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-    <h1 class="flex items-center justify-center text-2xl font-bold pt-8">Rychlost pro
+    <h1 class="flex items-center justify-center text-xl lg:text-2xl font-bold pt-8">Rychlost pro
         stránku: {{ web_name }}</h1>
     {% if user.is_authenticated %}
         {% if not url_added %}
@@ -67,10 +67,16 @@
             <p>&nbsp;pro přidání nebo odebrání stránky ze sledování</p>
         </div>
     {% endif %}
-    <div class="px-4 py-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+    <div class="px-4 pt-4 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-8 lg:px-8 lg:pt-4">
+    <div class="flex items-center p-2 rounded-md cursor-pointer text-gray-50">
+        <div id="crux" class="active px-4 py-2 rounded-l-md bg-amber-600">CrUX</div>
+        <div id="lighthouse" class="px-4 py-2 rounded-r-md bg-gray-100 text-gray-500">Lighthouse</div>
+    </div>
+    </div>
+    <div id="crux-body" class="px-4 py-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
         <div class="flex items-center">
             <span class="border-b border-black flex-grow mr-4"></span>
-            <span>Core Web Vitals</span>
+            <div>Core Web Vitals</div>
             <span class="border-b border-black flex-grow ml-4"></span>
         </div>
         <div class="grid row-gap-8 sm:grid-cols-3">
@@ -184,6 +190,31 @@
             {% endwith %}
         </div>
     </div>
+    <div id="lighthouse-body" class="hidden px-4 py-12 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+        <div class="flex items-center">
+            <span class="border-b border-black flex-grow mr-4"></span>
+            <div>Lighthouse</div>
+            <span class="border-b border-black flex-grow ml-4"></span>
+        </div>
+        <div class="grid row-gap-8">
+                <div class="text-center px-2">
+
+                        <div id="lighthouse_metric" class="stat-lighthouse-box text-4xl font-bold lg:text-5xl xl:text-6xl"
+                             low-treshold="50" high-treshold="90">
+                             <div class="flex items-center justify-center">
+                             <div class="w-10 h-10 rounded-full animate-spin border-2 border-dashed border-cyan-500 border-t-transparent my-3"></div>
+                             </div>
+
+                        </div>
+
+                    <p class="text-sm font-medium tracking-widest text-gray-800 uppercase lg:text-base">
+                       Performance
+                    </p>
+                </div>
+        </div>
+
+        </div>
+    </div>
     <form method="post">
         {% csrf_token %}
         <div class="container lg:max-w-screen-lg mx-auto px-4 py-2">
@@ -285,6 +316,56 @@
                     .catch(error => console.error(error));
             });
         }
+        const crux = document.getElementById("crux");
+        const lighthouse = document.getElementById("lighthouse");
+        const lighthouseBody = document.getElementById("lighthouse-body");
+        const cruxBody = document.getElementById("crux-body");
+        lighthouse.addEventListener('click', function () {
+            if (!lighthouse.classList.contains("active")) {
+                fetch('/lighthouse/?url=' + encodeURIComponent('{{ web_name }}') + '&device=' + '{{ device }}')
+                    .then(response => response.json())
+                    .then(function (data){
+                        console.log(data)
+                        const element = document.getElementById("lighthouse_metric");
+                        const value = data.performance;
+                        const low = parseInt(element.getAttribute('low-treshold'));
+                        const high = parseInt(element.getAttribute('high-treshold'));
+                        element.innerText = value;
+                        if (value < low) {
+                            element.classList.add('rounded-lg', 'border-2', 'border-dotted', 'border-red-500', 'pb-1', 'px-1');
+                        } else if (value > high) {
+                            element.classList.add('rounded-lg', 'border-2', 'border-dotted', 'border-lime-600', 'pb-1', 'px-1');
+                        } else {
+                            element.classList.add('rounded-lg', 'border-2', 'border-dotted', 'border-amber-500', 'pb-1', 'px-1');
+                        }
+                    })
+                    .catch(error => console.error(error));
+                lighthouse.classList.toggle("active");
+                lighthouse.classList.toggle("bg-amber-600");
+                lighthouse.classList.toggle("bg-gray-100");
+                lighthouse.classList.toggle("text-gray-500");
+                crux.classList.toggle("active");
+                crux.classList.toggle("bg-amber-600");
+                crux.classList.toggle("bg-gray-100");
+                crux.classList.toggle("text-gray-500");
+                cruxBody.classList.add("hidden");
+                lighthouseBody.classList.remove("hidden");
+            }
+        });
+        crux.addEventListener('click', function () {
+            if (!crux.classList.contains("active")) {
+                lighthouse.classList.toggle("active");
+                lighthouse.classList.toggle("bg-amber-600");
+                lighthouse.classList.toggle("bg-gray-100");
+                lighthouse.classList.toggle("text-gray-500");
+                crux.classList.toggle("active");
+                crux.classList.toggle("bg-amber-600");
+                crux.classList.toggle("bg-gray-100");
+                crux.classList.toggle("text-gray-500");
+                cruxBody.classList.remove("hidden");
+                lighthouseBody.classList.add("hidden");
+            }
+        });
         const otherWebVitals = document.getElementById("other-web-vitals");
         otherWebVitals.addEventListener('click', function () {
             otherWebVitals.classList.toggle("active")
@@ -295,6 +376,7 @@
                 otherWebVitalsBody.style.maxHeight = 0
             }
         });
+
         const boxes = document.querySelectorAll('.stat-box');
         boxes.forEach(box => {
             const value = parseInt(box.innerHTML);
@@ -309,5 +391,6 @@
                 box.classList.add('rounded-lg', 'border-2', 'border-dotted', 'border-amber-500', 'pb-1', 'px-1');
             }
         });
+            
     </script>
 {% endblock %}

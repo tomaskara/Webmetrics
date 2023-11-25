@@ -1,4 +1,6 @@
 import plotly.express as px
+import os
+import requests
 
 
 def create_plot(query_set, metric, device, annotations=None):
@@ -141,3 +143,27 @@ def create_charts(query_set, device, annotations):
         chart4 = chart4.to_html(config=config, include_plotlyjs=False)
 
     return chart1, chart2, chart3, chart4
+
+
+def get_pagespeed_insights_data(url, device: str = "MOBILE"):
+    """Retrieves data from the Pagespeed Insights API.
+
+    Args:
+        url (str): url address for which we want to download data
+    """
+    if device == "m":
+        device = "MOBILE"
+    elif device == "d":
+        device = "DESKTOP"
+    api_url = f"https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
+    params = {'url': url,
+              'key': os.getenv('PAGESPEED_API_KEY'),
+              'category': 'PERFORMANCE',
+              'strategy': device,
+              'fields': 'lighthouseResult.categories.performance.score'}
+    api_request = requests.get(api_url, params=params)
+    json_response = api_request.json()
+    performance_score = json_response['lighthouseResult']['categories']['performance']['score'] * 100
+    return performance_score
+
+

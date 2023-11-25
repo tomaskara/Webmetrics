@@ -11,7 +11,7 @@ from speedcheck.models import (
     CruxWeeklyHistory,
 )
 
-from .functions import create_charts
+from .functions import create_charts, get_pagespeed_insights_data
 from speedcheck.functions import get_api_history_data
 
 
@@ -100,3 +100,11 @@ def add_profile_url(request):
     url_object = Urls.objects.get(id=url_id)
     request.user.profile.urls.add(url_object)
     return JsonResponse({"success": True})
+
+
+def lighthouse_on(request):
+    """Handle JS request from templates, request and return Lighthouse metrics."""
+    url = request.GET.get("url")
+    device = request.GET.get("device")
+    lighthouse = int(get_pagespeed_insights_data(url, device))
+    return JsonResponse({"performance": str(lighthouse)})
