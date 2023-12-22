@@ -9,6 +9,9 @@ from statistics import mean
 
 import requests
 from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from dotenv import load_dotenv
 
 from dashboard.functions import create_plot
@@ -223,11 +226,11 @@ def email_launcher(url, new_values):
     if alerts_s1 and trigger_s1:
         for alert in alerts_s1:
             user_email = alert.profile.user.email
-            send_email(user_email, url, trigger_s1)
+            django_send_email(user_email, url, trigger_s1)
     if alerts_s2 and trigger_s2:
         for alert in alerts_s2:
             user_email = alert.profile.user.email
-            send_email(user_email, url, trigger_s2)
+            django_send_email(user_email, url, trigger_s2)
 
 
 def send_email(user_email, url, metrics_to_alert):
@@ -292,3 +295,29 @@ def create_png_plot(metric, url, user_email):
     path = f"/static/images/{hash_email.hexdigest()[:6]}{metric}{hash_url.hexdigest()[:6]}.png"
     fig.write_image(f"{BASE_DIR}{path}")
     return path
+
+def django_send_email(user_email, url, metrics_to_alert):
+    sender_email = os.getenv("EMAIL")
+    metrics = [x.upper() for x in metrics_to_alert.keys()]
+    url_id = Urls.objects.get(url=url).id
+    plots = []
+    for metric in metrics_to_alert.keys():
+        plots.append(create_png_plot(metric, url, user_email))
+    metrics_items = [y for y in metrics_to_alert.items()]
+    context = {'metrics': metrics,
+               'url': url,
+               'metrics_items': metrics_items,
+               'plots': plots,
+               'url_id': url_id}
+    html_message = render_to_string("../templates/email/alert_email.html", context=context)
+    plain_message = strip_tags(html_message)
+    message = EmailMultiAlternatives(
+        subject=f"ALERT - rychlost pro {url} se zhoršila v metrikách: {', '.join(metrics)}",
+        body=plain_message,
+        from_email=f"Webmetrics <{sender_email}>",
+        to=[user_email]
+    )
+
+    message.attach_alternative(html_message, "text/html")
+    message.send()
+    return f"Email sended to {user_email}"
