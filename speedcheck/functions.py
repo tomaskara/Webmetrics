@@ -178,30 +178,48 @@ def email_trigger(url, new_values, sensitivity=2):
         fidm = [q.fidm for q in query_set_for_url[1:6]]
         lcpm = [q.lcpm for q in query_set_for_url[1:6]]
         if sensitivity == 1:
-            if new_values["clsm"] > mean(clsm):
-                metrics_to_alert["clsm"] = [new_values["clsm"], mean(clsm)]
-                trigger = True
-            if new_values["fidm"] > mean(fidm):
-                metrics_to_alert["fidm"] = [new_values["fidm"], mean(fidm)]
-                trigger = True
-            if new_values["lcpm"] > mean(lcpm):
-                metrics_to_alert["lcpm"] = [new_values["lcpm"], mean(lcpm)]
-                trigger = True
-            if trigger:
-                return metrics_to_alert
-        elif sensitivity == 2:
-            if new_values["clsm"] >= 0.8:
+            try:
                 if new_values["clsm"] > mean(clsm):
                     metrics_to_alert["clsm"] = [new_values["clsm"], mean(clsm)]
                     trigger = True
-            if new_values["fidm"] >= 80:
+            except TypeError:
+                print("Cant calculate mean of clsm.")
+            try:
                 if new_values["fidm"] > mean(fidm):
                     metrics_to_alert["fidm"] = [new_values["fidm"], mean(fidm)]
                     trigger = True
-            if new_values["lcpm"] >= 2500:
+            except TypeError:
+                print("Cant calculate mean of fidm.")
+            try:
                 if new_values["lcpm"] > mean(lcpm):
                     metrics_to_alert["lcpm"] = [new_values["lcpm"], mean(lcpm)]
                     trigger = True
+            except TypeError:
+                print("Cant calculate mean of lcpm.")
+            if trigger:
+                return metrics_to_alert
+        elif sensitivity == 2:
+            try:
+                if new_values["clsm"] >= 0.8:
+                    if new_values["clsm"] > mean(clsm):
+                        metrics_to_alert["clsm"] = [new_values["clsm"], mean(clsm)]
+                        trigger = True
+            except TypeError:
+                print("Cant calculate mean of clsm.")
+            try:
+                if new_values["fidm"] >= 80:
+                    if new_values["fidm"] > mean(fidm):
+                        metrics_to_alert["fidm"] = [new_values["fidm"], mean(fidm)]
+                        trigger = True
+            except TypeError:
+                print("Cant calculate mean of fidm.")
+            try:
+                if new_values["lcpm"] >= 2500:
+                    if new_values["lcpm"] > mean(lcpm):
+                        metrics_to_alert["lcpm"] = [new_values["lcpm"], mean(lcpm)]
+                        trigger = True
+            except TypeError:
+                print("Cant calculate mean of lcpm.")
             if trigger:
                 return metrics_to_alert
     else:
