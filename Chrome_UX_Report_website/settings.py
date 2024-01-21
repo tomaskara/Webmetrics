@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     'speedcheck',
     'markdownx',
     'articles',
+    'allauth',
+    'utm_generator'
 ]
 
 MIDDLEWARE = [

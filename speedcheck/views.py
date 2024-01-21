@@ -104,3 +104,9 @@ def delete_annot(request):
     """Handle JS request from templates to delete annotations."""
     Annotations.objects.get(id=request.GET.get("annot_id")).delete()
     return JsonResponse({"success": True})
+
+def test_page(request):
+    return render(request,"test.html")
+
+def tools(request):
+    return render(request, "tools.html")

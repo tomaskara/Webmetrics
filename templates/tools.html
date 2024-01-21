@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Nástroje{% endblock %}
+
+{% block content %}
+<div class="text-2xl font-bold text-gray-900 md:text-3xl max-w-4xl mx-auto px-4 md:px-8 py-4 mt-4 ">Nástroje:</div>
+    <div>
+    <div class="max-w-4xl mx-auto px-4 md:px-8 bg-white shadow py-4 mt-4 ">
+      <h2><a href="{% url 'utm_generator' %}" class="block underline font-body text-lg font-semibold hover:text-gray-500">UTM generátor</a></h2>
+      <p>UTM generátor, někdy označovaný také jako UTM builder, je nástroj, který usnadňuje tvorbu URL obsahující UTM parametry.<a href="{% url 'utm_generator' %}" class="block underline font-body text-lg font-semibold hover:text-gray-500">Otevřít</a></p>
+
+    </div>
+        </div>
+
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}UTM generátor{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold text-gray-900 md:text-3xl max-w-4xl mx-auto px-4 md:px-8 py-4 mt-4 ">UTM generátor</h1>
+<p class="text-justify text-gray-900 max-w-4xl mx-auto px-4 md:px-8 py-4">UTM generátor, někdy označovaný také jako UTM builder,
+    je nástroj, který usnadňuje tvorbu URL obsahující UTM parametry. Níže vyplňte vaše UTM parametry a v poli pod formulářem se automaticky vygeneruje požadovaná URL. Stačí zkopírovat klikem na ikonu.
+Pokud si potřebujete udělat jasno o tom, co to UTM parametry jsou a jak fungují, tak pokračujte na článek <a class="underline" href="https://www.webmetrics.cz/articles/co-jsou-utm-parametry-a-jak-je-spravne-pouzit/">Co jsou UTM parametry a jak je správně použít</a>.</p>
+
+<div class="flex items-center justify-center">
+    <div class="lg:w-6/12">
+<div>
+<form id="utmForm">
+    {% load widget_tweaks %}
+    {% csrf_token %}
+
+    <div class="md:flex md:items-center">
+    <div class="ml-2 mr-2 w-28">Základní URL*:</div>
+    {% render_field form.base_url type="url"
+                        class="w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
+                        bg-gray-50 text-gray-800" %}
+    </div>
+    <div class="md:flex md:items-center">
+    <div class="ml-2 mr-2 w-28">UTM source*:</div>
+    {% render_field form.utm_source type="text"
+                        class="w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
+                        bg-gray-50 text-gray-800" %}
+    </div>
+    <div class="md:flex md:items-center">
+    <div class="ml-2 mr-2 w-28">UTM medium*:</div>
+    {% render_field form.utm_medium type="text"
+                        class="w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
+                        bg-gray-50 text-gray-800" %}
+    </div>
+    <div class="md:flex md:items-center">
+    <div class="ml-2 mr-2 w-28">UTM campaign:</div>
+    {% render_field form.utm_campaign type="text"
+                        class="w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
+                        bg-gray-50 text-gray-800" %}
+    </div>
+    <div class="md:flex md:items-center">
+    <div class="ml-2 mr-2 w-28">UTM content:</div>
+    {% render_field form.utm_content type="text"
+                        class="w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
+                        bg-gray-50 text-gray-800" %}
+    </div>
+    <div class="md:flex md:items-center">
+    <div class="ml-2 mr-2 w-28">UTM term:</div>
+    {% render_field form.utm_term type="text"
+                        class="w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
+                        bg-gray-50 text-gray-800" %}
+    </div>
+
+</form>
+</div>
+
+<div class="max-w-full mx-auto px-4 md:px-8 bg-white shadow py-4 mt-4 rounded-lg break-all flex justify-between" id="result">
+    <span id="resultText"></span>
+    <button id="copyButton" onclick="copyToClipboard()">
+        <div id="icon-container">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00bfd8" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z" />
+  <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1" />
+</svg>
+        </div>
+    </button></div>
+</div>
+</div>
+
+<script>
+const form = document.getElementById('utmForm');
+const resultDiv = document.getElementById('resultText');
+
+form.addEventListener('input', function() {
+    let field1 = document.getElementById('id_base_url').value;
+    let field2 = document.getElementById('id_utm_source').value;
+    let field3 = document.getElementById('id_utm_medium').value;
+    let field4 = document.getElementById('id_utm_campaign').value;
+    let field5 = document.getElementById('id_utm_content').value;
+    let field6 = document.getElementById('id_utm_term').value;
+
+    let coloredField4 = '';
+    let coloredField5 = '';
+    let coloredField6 = '';
+
+    let coloredField2 = '<span class="text-blue-600">?utm_source=' + field2 + '</span>';
+    let coloredField3 = '<span class="text-lime-500">&utm_medium=' + field3 + '</span>';
+    if (field4) {
+        coloredField4 = '<span class="text-red-600">&utm_campaign=' + field4 + '</span>';
+        }
+    if (field5) {
+        coloredField5 = '<span class="text-indigo-600">&utm_content=' + field5 + '</span>';
+        }
+    if (field6) {
+        coloredField6 = '<span class="text-amber-600">&utm_term=' + field6 + '</span>';
+        }
+    let resultString;
+    if (!field1.match(/^https?:\/\//)) {
+            resultString = 'Není vložena validní URL';
+        } else {
+            resultString = field1 + coloredField2 + coloredField3 + coloredField4 + coloredField5 + coloredField6;
+        }
+    resultDiv.innerHTML = resultString;
+});
+    function copyToClipboard() {
+    var resultElement = document.getElementById("resultText");
+
+    var range = document.createRange();
+    range.selectNode(resultElement);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+
+    document.execCommand("copy");
+
+    window.getSelection().removeAllRanges();
+    const svgContainer = document.getElementById('icon-container').querySelector('svg');
+
+    let newPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    newPath.setAttribute('d', 'M11 14l2 2l4 -4');
+    svgContainer.appendChild(newPath);
+  }
+</script>
+{% endblock %}
+

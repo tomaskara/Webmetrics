@@ -13,6 +13,7 @@ class Article(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
 
     @property
     def formatted_markdown(self):

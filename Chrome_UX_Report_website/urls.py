@@ -18,6 +18,7 @@ urlpatterns = [
     path("", views.home),
     path("", include("dashboard.urls")),
     path("", include("articles.urls")),
+    path("", include("utm_generator.urls")),
     path("profile/", views.profilepage, name="profilepage"),
     path("change-value/", views.change_value, name="change_value"),
     path("delete-annot/", views.delete_annot, name="delete_annot"),
@@ -27,6 +28,8 @@ urlpatterns = [
     path('password-reset/done/', PasswordResetDoneView.as_view(),name='password_reset_done'),
     path('password-reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('password-reset-complete/', PasswordResetCompleteView.as_view(),name='password_reset_complete'),
+    path('test-page/', views.test_page, name="test_page"),
+    path('tools/', views.tools, name="tools")
 ]
 
 if settings.DEBUG:

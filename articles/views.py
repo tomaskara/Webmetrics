@@ -8,5 +8,5 @@ def article_detail(request, slug):
 
 
 def article_list(request):
-    articles = Article.objects.all()
+    articles = Article.objects.filter(active=True).order_by("-last_modified")
     return render(request, "articles/articles.html", {"articles": articles})

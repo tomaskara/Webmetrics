@@ -7,6 +7,13 @@
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My amazing site{% endblock %}</title>
+    <style>
+        .dropbtn.active .dropdown-menu {
+            opacity: 1;
+            transform: translate(0) scale(1);
+            visibility: visible;
+          }
+    </style>
 </head>
 <body class="flex flex-col min-h-screen bg-amber-50">
 <header aria-label="Site Header" class="bg-white shadow-md">
@@ -48,6 +55,14 @@
                                 Články
                             </a>
                         </li>
+                        <li>
+                            <a
+                                    class="text-gray-500 transition hover:text-gray-500/75"
+                                    href="{% url 'tools' %}"
+                            >
+                                Nástroje
+                            </a>
+                        </li>
                         {% if user.is_authenticated %}
                         <li>
                             <a
@@ -68,7 +83,7 @@
                 <div class="flex items-center gap-4">
                     <div class="min-h-screen py-6 flex flex-col justify-center sm:py-12">
                         <div class="flex items-center justify-center p-12">
-                            <div class=" relative inline-block text-left dropdown">
+                            <div class=" relative inline-block text-left dropbtn" id="userbtn" onclick="showDropdown('user_menu','userbtn')">
             <span class="rounded-md shadow-sm">
                 <button class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium leading-5 text-gray-700 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
                         type="button" aria-haspopup="true" aria-expanded="true"
@@ -79,7 +94,7 @@
                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                         clip-rule="evenodd"></path></svg>
                 </button></span>
-                                <div class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95">
+                                <div class="opacity-0 invisible dropdown-menu transition-all duration-300 transform origin-top-right -translate-y-2 scale-95" id="user_menu">
                                     <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
                                          aria-labelledby="headlessui-menu-button-1"
                                          id="headlessui-menu-items-117" role="menu">
@@ -100,14 +115,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <style>
-                        .dropdown:focus-within .dropdown-menu {
-                            opacity: 1;
-                            transform: translate(0) scale(1);
-                            visibility: visible;
-                        }
-                    </style>
                 </div>
             {% else %}
                 <div class="flex items-center gap-4">
@@ -129,9 +136,9 @@
                     </div>
                 </div>
             {% endif %}
-            <div class="block md:hidden">
+            <div class="block md:hidden dropbtn" id="burgerbtn" onclick="showDropdown('mobile_menu','burgerbtn')">
                 <button id="toggle-menu"
-                        class="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75"
+                        class="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75 dropbtn"
                 >
                     <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +157,7 @@
                 </button>
 
                 <nav aria-label="Main Nav"
-                     class="mobile-menu bg-white rounded absolute right-0 flex flex-col block space-y-1 mt-2 mr-2 hidden">
+                     class="mobile-menu bg-white rounded absolute right-0 flex flex-col block space-y-1 mt-2 mr-2 dropdown-content dropdown-menu opacity-0 invisible transition-all duration-300 transform origin-top-right -translate-y-2 scale-95" id="mobile_menu">
                     <a
                             href="/"
                             class="block rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
@@ -163,6 +170,12 @@
                             class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                     >
                         Články
+                    </a>
+                    <a
+                            href="{% url 'tools' %}"
+                            class="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                    >
+                        Nástroje
                     </a>
                     {% if user.is_authenticated %}
                     <a
@@ -195,14 +208,19 @@
     </div>
 </footer>
 <script>
-    const button = document.getElementById("toggle-menu");
-    const mobile_menu = document.querySelector('.mobile-menu')
-    button.addEventListener("click", function () {
-        mobile_menu.classList.toggle("hidden");
-        mobile_menu.classList.toggle("transition");
-        mobile_menu.classList.toggle("ease-out");
-        mobile_menu.classList.toggle("duration-300");
-    });
+    function showDropdown (dropdown_section,drobdown_btn) {
+        const dropdown_button = document.getElementById(drobdown_btn);
+        dropdown_button.classList.toggle('active');
+    };
+    window.onclick = function(event) {
+        if (!document.getElementById('userbtn').contains(event.target)) {
+            document.getElementById('userbtn').classList.remove('active')
+        }
+        if (!document.getElementById('burgerbtn').contains(event.target)){
+            document.getElementById('burgerbtn').classList.remove('active')
+        }
+      }
+
 
 </script>
 </body>
