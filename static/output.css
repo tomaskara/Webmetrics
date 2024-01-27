@@ -1532,8 +1532,8 @@ select {
   width: 7rem;
 }
 
-.w-96 {
-  width: 24rem;
+.w-80 {
+  width: 20rem;
 }
 
 .max-w-screen-xl {
@@ -2256,21 +2256,6 @@ select {
   color: rgb(22 101 52 / var(--tw-text-opacity));
 }
 
-.text-blue-600 {
-  --tw-text-opacity: 1;
-  color: rgb(37 99 235 / var(--tw-text-opacity));
-}
-
-.text-lime-500 {
-  --tw-text-opacity: 1;
-  color: rgb(132 204 22 / var(--tw-text-opacity));
-}
-
-.text-indigo-600 {
-  --tw-text-opacity: 1;
-  color: rgb(79 70 229 / var(--tw-text-opacity));
-}
-
 .underline {
   text-decoration-line: underline;
 }
@@ -2489,10 +2474,6 @@ a.modebar-btn {
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
-.prose-code\:p-2 :is(:where(code):not(:where([class~="not-prose"] *))) {
-  padding: 0.5rem;
-}
-
 .prose-code\:p-0\.5 :is(:where(code):not(:where([class~="not-prose"] *))) {
   padding: 0.125rem;
 }
@@ -2648,6 +2629,14 @@ a.modebar-btn {
 
   .md\:hidden {
     display: none;
+  }
+
+  .md\:w-96 {
+    width: 24rem;
+  }
+
+  .md\:w-80 {
+    width: 20rem;
   }
 
   .md\:max-w-full {

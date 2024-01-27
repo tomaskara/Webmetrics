@@ -18,37 +18,37 @@ Pokud si potřebujete udělat jasno o tom, co to UTM parametry jsou a jak funguj
     <div class="md:flex md:items-center">
     <div class="ml-2 mr-2 w-28">Základní URL*:</div>
     {% render_field form.base_url type="url"
-                        class="w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
+                        class="w-80 md:w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
                         bg-gray-50 text-gray-800" %}
     </div>
     <div class="md:flex md:items-center">
     <div class="ml-2 mr-2 w-28">UTM source*:</div>
     {% render_field form.utm_source type="text"
-                        class="w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
+                        class="w-80 md:w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
                         bg-gray-50 text-gray-800" %}
     </div>
     <div class="md:flex md:items-center">
     <div class="ml-2 mr-2 w-28">UTM medium*:</div>
     {% render_field form.utm_medium type="text"
-                        class="w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
+                        class="w-80 md:w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
                         bg-gray-50 text-gray-800" %}
     </div>
     <div class="md:flex md:items-center">
     <div class="ml-2 mr-2 w-28">UTM campaign:</div>
     {% render_field form.utm_campaign type="text"
-                        class="w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
+                        class="w-80 md:w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
                         bg-gray-50 text-gray-800" %}
     </div>
     <div class="md:flex md:items-center">
     <div class="ml-2 mr-2 w-28">UTM content:</div>
     {% render_field form.utm_content type="text"
-                        class="w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
+                        class="w-80 md:w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
                         bg-gray-50 text-gray-800" %}
     </div>
     <div class="md:flex md:items-center">
     <div class="ml-2 mr-2 w-28">UTM term:</div>
     {% render_field form.utm_term type="text"
-                        class="w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
+                        class="w-80 md:w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
                         bg-gray-50 text-gray-800" %}
     </div>
 
@@ -68,59 +68,7 @@ Pokud si potřebujete udělat jasno o tom, co to UTM parametry jsou a jak funguj
     </button></div>
 </div>
 </div>
-
-<script>
-const form = document.getElementById('utmForm');
-const resultDiv = document.getElementById('resultText');
-
-form.addEventListener('input', function() {
-    let field1 = document.getElementById('id_base_url').value;
-    let field2 = document.getElementById('id_utm_source').value;
-    let field3 = document.getElementById('id_utm_medium').value;
-    let field4 = document.getElementById('id_utm_campaign').value;
-    let field5 = document.getElementById('id_utm_content').value;
-    let field6 = document.getElementById('id_utm_term').value;
-
-    let coloredField4 = '';
-    let coloredField5 = '';
-    let coloredField6 = '';
-
-    let coloredField2 = '<span class="text-blue-600">?utm_source=' + field2 + '</span>';
-    let coloredField3 = '<span class="text-lime-500">&utm_medium=' + field3 + '</span>';
-    if (field4) {
-        coloredField4 = '<span class="text-red-600">&utm_campaign=' + field4 + '</span>';
-        }
-    if (field5) {
-        coloredField5 = '<span class="text-indigo-600">&utm_content=' + field5 + '</span>';
-        }
-    if (field6) {
-        coloredField6 = '<span class="text-amber-600">&utm_term=' + field6 + '</span>';
-        }
-    let resultString;
-    if (!field1.match(/^https?:\/\//)) {
-            resultString = 'Není vložena validní URL';
-        } else {
-            resultString = field1 + coloredField2 + coloredField3 + coloredField4 + coloredField5 + coloredField6;
-        }
-    resultDiv.innerHTML = resultString;
-});
-    function copyToClipboard() {
-    var resultElement = document.getElementById("resultText");
-
-    var range = document.createRange();
-    range.selectNode(resultElement);
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(range);
-
-    document.execCommand("copy");
-
-    window.getSelection().removeAllRanges();
-    const svgContainer = document.getElementById('icon-container').querySelector('svg');
-
-    let newPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    newPath.setAttribute('d', 'M11 14l2 2l4 -4');
-    svgContainer.appendChild(newPath);
-  }
-</script>
+{% load static %}
+<script type="text/javascript" src="{% static 'utmgenerator.js' %}"></script>
 {% endblock %}
 
