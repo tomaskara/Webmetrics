@@ -24,14 +24,26 @@ Pokud si potřebujete udělat jasno o tom, co to UTM parametry jsou a jak funguj
     <div class="md:flex md:items-center">
     <div class="ml-2 mr-2 w-28">UTM source*:</div>
     {% render_field form.utm_source type="text"
-                        class="w-80 md:w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
+                        class="w-80 md:w-96 px-2 py-1 md:mt-1.5 h-8 border rounded-md border-gray-300
                         bg-gray-50 text-gray-800" %}
+    </div>
+    <div class="text-sm mb-1 md:ml-32">
+        (např.: <span class="underline decoration-dotted decoration-1 cursor-pointer suggestion">google</span>,
+          <span class="underline decoration-dotted decoration-1 cursor-pointer suggestion">sklik</span>,
+          <span class="underline decoration-dotted decoration-1 cursor-pointer suggestion">facebook</span>,
+          <span class="underline decoration-dotted decoration-1 cursor-pointer suggestion">instagram</span>,
+          <span class="underline decoration-dotted decoration-1 cursor-pointer suggestion">newsletter</span>)
     </div>
     <div class="md:flex md:items-center">
     <div class="ml-2 mr-2 w-28">UTM medium*:</div>
     {% render_field form.utm_medium type="text"
-                        class="w-80 md:w-96 px-2 py-1 md:my-1.5 h-8 border rounded-md border-gray-300
+                        class="w-80 md:w-96 px-2 py-1 md:mt-1.5 h-8 border rounded-md border-gray-300
                         bg-gray-50 text-gray-800" %}
+    </div>
+    <div class="text-sm mb-1 md:ml-32">
+        (např.: <span class="underline decoration-dotted decoration-1 cursor-pointer suggestion">cpc</span>,
+          <span class="underline decoration-dotted decoration-1 cursor-pointer suggestion">email</span>,
+          <span class="underline decoration-dotted decoration-1 cursor-pointer suggestion">banner</span>)
     </div>
     <div class="md:flex md:items-center">
     <div class="ml-2 mr-2 w-28">UTM campaign:</div>
@@ -55,7 +67,7 @@ Pokud si potřebujete udělat jasno o tom, co to UTM parametry jsou a jak funguj
 </form>
 </div>
 
-<div class="max-w-full mx-auto px-4 md:px-8 bg-white shadow py-4 mt-4 rounded-lg break-all flex justify-between" id="result">
+<div class="max-w-full mx-auto px-4 md:px-8 bg-white shadow py-4 my-4 rounded-lg break-all flex justify-between" id="result">
     <span id="resultText"></span>
     <button id="copyButton" onclick="copyToClipboard()">
         <div id="icon-container">

@@ -97,3 +97,12 @@ form.addEventListener('input', function() {
     newPath.setAttribute('d', 'M11 14l2 2l4 -4');
     svgContainer.appendChild(newPath);
   }
+
+
+  let suggestions = document.getElementsByClassName('suggestion');
+
+  for (let i = 0; i < suggestions.length; i++) {
+      suggestions[i].addEventListener('click', function(e) {
+          e.target.parentElement.previousElementSibling.lastElementChild.value = e.target.innerText;
+      });
+  }
