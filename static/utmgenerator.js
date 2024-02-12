@@ -1,38 +1,18 @@
 const form = document.getElementById('utmForm');
 const resultDiv = document.getElementById('resultText');
+let field1 = document.getElementById('id_base_url');
+let field2 = document.getElementById('id_utm_source');
+let field3 = document.getElementById('id_utm_medium');
+let field4 = document.getElementById('id_utm_campaign');
+let field5 = document.getElementById('id_utm_content');
+let field6 = document.getElementById('id_utm_term');
 
-function parseUTMParams(url) {
-    const [baseUrl, queryString] = url.split('?');
-  
-    if (!queryString) {
-      return {};
-    }
-  
-    const queryParams = queryString.split('&');
-  
-    const utmParams = {};
-  
-    queryParams.forEach(param => {
-      const [key, value] = param.split('=');
-      utmParams[key] = value;
-    });
-  
-    return { baseUrl, utmParams };
-  }
-
-form.addEventListener('input', function() {
-    let field1 = document.getElementById('id_base_url');
-    let field2 = document.getElementById('id_utm_source');
-    let field3 = document.getElementById('id_utm_medium');
-    let field4 = document.getElementById('id_utm_campaign');
-    let field5 = document.getElementById('id_utm_content');
-    let field6 = document.getElementById('id_utm_term');
-
+function createUtmUrl() {
     let coloredField4 = '';
     let coloredField5 = '';
     let coloredField6 = '';
 
-    
+
     let resultString;
     let params;
     let baseUrl;
@@ -45,7 +25,7 @@ form.addEventListener('input', function() {
             
             if (params.hasOwnProperty('utm_source')) {                
                 field2.value = params['utm_source'];
-              }
+            }
             if (params.hasOwnProperty('utm_medium')) {            
                 field3.value = params['utm_medium'];
             }
@@ -72,15 +52,46 @@ form.addEventListener('input', function() {
     if (field6.value) {
         coloredField6 = '<span class="text-amber-600">&utm_term=' + field6.value + '</span>';
         }
-    
-    if (!field1.value.match(/^https?:\/\//)) {
-            resultString = 'Není vložena validní URL';
-        } else {
-            resultString = field1.value + coloredField2 + coloredField3 + coloredField4 + coloredField5 + coloredField6;
+
+
+    resultString = field1.value + coloredField2 + coloredField3 + coloredField4 + coloredField5 + coloredField6;
+
+    if (field1.value && field2.value && field3.value) {
+        resultDiv.innerHTML = resultString;
         }
-    resultDiv.innerHTML = resultString;
-});
-    function copyToClipboard() {
+
+}
+
+function parseUTMParams(url) {
+    const [baseUrl, queryString] = url.split('?');
+  
+    if (!queryString) {
+      return {};
+    }
+  
+    const queryParams = queryString.split('&');
+  
+    const utmParams = {};
+  
+    queryParams.forEach(param => {
+      const [key, value] = param.split('=');
+      utmParams[key] = value;
+    });
+  
+    return { baseUrl, utmParams };
+  }
+
+form.addEventListener('input', createUtmUrl);
+field1.addEventListener('blur', function(){
+    if (field1.value !== '') {
+        if (!field1.value.match(/^https?:\/\//)) {
+            field1.value = 'https://' + field1.value;
+            createUtmUrl();
+        }
+    }
+})
+
+function copyToClipboard() {
     var resultElement = document.getElementById("resultText");
 
     var range = document.createRange();
@@ -104,5 +115,6 @@ form.addEventListener('input', function() {
   for (let i = 0; i < suggestions.length; i++) {
       suggestions[i].addEventListener('click', function(e) {
           e.target.parentElement.previousElementSibling.lastElementChild.value = e.target.innerText;
+          createUtmUrl();
       });
   }

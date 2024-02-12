@@ -68,7 +68,7 @@ Pokud si potřebujete udělat jasno o tom, co to UTM parametry jsou a jak funguj
 </div>
 
 <div class="max-w-full mx-auto px-4 md:px-8 bg-white shadow py-4 my-4 rounded-lg break-all flex justify-between" id="result">
-    <span id="resultText"></span>
+    <span id="resultText">Vyplňte URL a alespoň UTM source a UTM medium.</span>
     <button id="copyButton" onclick="copyToClipboard()">
         <div id="icon-container">
         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copy" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00bfd8" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -80,6 +80,35 @@ Pokud si potřebujete udělat jasno o tom, co to UTM parametry jsou a jak funguj
     </button></div>
 </div>
 </div>
+<div
+                class="relative flex items-start justify-between mx-auto rounded-xl border border-gray-100 max-w-xl bg-white p-4 my-4 shadow-xl sm:p-6 lg:p-8"
+        >
+            <div class="pt-0.5 text-gray-500">
+
+                <h2 class="mt-0.5 text-lg font-bold text-gray-900 sm:text-xl">
+                    Jak pracovat s UTM generátorem?
+                </h2>
+
+                <div class="ml-4">
+                    <ol class="list-decimal">
+                    <li class="pt-2">Vyplňte základní URL bez UTM parametrů.
+                        <ul class="list-disc ml-6 text-sm">
+                            <li class="my-0.5">Pokud URL nebude obsahovat protokol http:// nebo https:// generátor ho automaticky doplní po opuštění políčka.</li>
+                            <li class="my-0.5">Vložit můžete i URL obsahující UTM parametry. V takovém případě se jednotlivé parametry z URL odstraní a roztřídí se do příslušných políček. To se hodí v případě, že už máte URL s parametry a chcete upravovat jen některé z parametrů a ostatní zachovat.</li>
+                        </ul>
+                    </li>
+                    <li class="pt-2">Vyplňte jednotlivé hodnoty UTM parametrů.
+                        <ul class="list-disc ml-6 text-sm">
+                            <li class="my-0.5">V momentě, kdy začnete vyplňovat se hodnoty začnou automaticky propisovat do finální URL do pole pod formulářem.</li>
+                            <li class="my-0.5">Vždy k URL musíte vyplnit alespoň UTM source a UTM medium, ostatní jsou volitelné.</li>
+                            <li class="my-0.5">Po některými poli jsou uvedeny příklady často používaných hodnot. V případě, že takovou hodnotu chcete použít, můžete na ni kliknout a automaticky se propíše do políčka.</li>
+                        </ul>
+                    </li>
+                    <li class="pt-2">Zkopírujte finální URL obohacenou i UTM parametry kliknutím na ikonu. Poté ji vložte do vašich reklamních systémů, emailu atp., kde potřebujete URL s UTM parametry použít.</li>
+            </ol>
+            </div>
+            </div>
+        </div>
 {% load static %}
 <script type="text/javascript" src="{% static 'utmgenerator.js' %}"></script>
 {% endblock %}
