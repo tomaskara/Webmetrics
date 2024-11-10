@@ -22,7 +22,6 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 shortcuts = {
     "largest_contentful_paint": "lcp",
-    "first_input_delay": "fid",
     "cumulative_layout_shift": "cls",
     "first_contentful_paint": "fcp",
     "experimental_time_to_first_byte": "ttfb",
