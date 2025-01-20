@@ -76,7 +76,10 @@ def get_api_data(url):
                 CruxHistory.objects.create(**new_values)
                 # check if there are some alerts set for current url
                 if ProfileUrl.objects.filter(url__url=url, email_alert=True).exists():
-                    email_launcher(url, new_values)
+                    try:
+                        email_launcher(url, new_values)
+                    except:
+                        print("An email was supposed to be sent, but it failed.")
 
         elif device == "DESKTOP":
             # check if combination url and date exists with empty desktop values, if yes: update desktop values
